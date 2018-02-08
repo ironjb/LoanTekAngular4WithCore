@@ -1,0 +1,28 @@
+<nav [attr.id]="elementid" class="{{cssclass}}">
+	<div class="col-auto">
+		<ul class="pagination mb-0">
+			<li class="page-item" [class.disabled]="page <= 1"><button type="button" class="page-link" [disabled]="page <= 1" (click)="setPage(1)"><i class="fa fa-angle-double-left"></i></button></li>
+			<li class="page-item" [class.disabled]="page <= 1"><button type="button" class="page-link" [disabled]="page <= 1" (click)="setPage(page - 1)"><i class="fa fa-angle-left"></i></button></li>
+
+			<li class="page-item" *ngIf="firstNumericButton > 1"><button type="button" class="page-link" (click)="setPage(firstNumericButton - 1)">...</button></li>
+
+			<li class="page-item" *ngFor="let pg of numericBtnArray" [class.active]="pg === page"><button class="page-link" type="button" (click)="setPage(pg)">{{pg}}</button></li>
+
+			<li class="page-item" *ngIf="(firstNumericButton + numericbtncount - 1) < pageCount"><button type="button" class="page-link" (click)="setPage(firstNumericButton + numericbtncount)">...</button></li>
+
+			<li class="page-item" [class.disabled]="page >= pageCount"><button type="button" class="page-link" [disabled]="page >= pageCount" (click)="setPage(page + 1)"><i class="fa fa-angle-right"></i></button></li>
+			<li class="page-item" [class.disabled]="page >= pageCount"><button type="button" class="page-link" [disabled]="page >= pageCount" (click)="setPage(pageCount)"><i class="fa fa-angle-double-right"></i></button></li>
+		</ul>
+	</div>
+	<div class="col-auto">
+		<label for="{{elementid}}_PageSize" class="col-form-label mr-2">Page size:</label>
+	</div>
+	<div class="col-auto" [formGroup]="pageSizeFG">
+		<select name="{{elementid}}_PageSize" id="{{elementid}}_PageSize" class="form-control" (change)="setPageSize()" formControlName="pageSizeCtrl">
+			<option *ngFor="let pso of pagesizingoptions" [value]="pso.value">{{pso.display || pso.value}}</option>
+		</select>
+	</div>
+	<div class="col-auto {{displaytextclass}}" *ngIf="!hidetotals">
+		<label class="col-form-label">{{displayCountsText}}</label>
+	</div>
+</nav>

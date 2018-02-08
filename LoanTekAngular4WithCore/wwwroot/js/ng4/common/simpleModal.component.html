@@ -1,0 +1,13 @@
+<div id="{{elementId}}" #modalContainer class="modal fade" tabindex="-1">
+	<div class="modal-dialog {{modalSizeClass}}">
+		<div class="modal-content overflow-auto">
+			<div class="modal-header {{titleBgClass}} {{titleColorClass}}">
+				<div class="modal-title">{{modalTitle}}</div>
+				<button class="close {{titleColorClass}}" type="button" (click)="closeModal()">&times;<!-- <i class="fa fa-times"></i> --></button>
+			</div>
+			<div class="modal-body">
+				<ng-content></ng-content>
+			</div>
+		</div>
+	</div>
+</div>
