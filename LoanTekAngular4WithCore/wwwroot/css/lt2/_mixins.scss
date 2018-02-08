@@ -1,0 +1,27 @@
+@import "../../node_modules/bootstrap/scss/mixins";
+
+// .simple icon mixin
+@mixin simple-icon-pad($si-width: 15px, $si-margin: 0 4px 0 0) {
+	width: $si-width;
+	margin: $si-margin;
+	display: inline-block;
+}
+
+// Dropdown fade mixin
+@mixin dropdown-fade() {
+	&.dropdown, .dropdown {
+		> .dropdown-menu {
+			display: block;
+			visibility: hidden;
+			opacity: 0;
+			transition: opacity 0.4s, visibility 0.4s;
+		}
+
+		&.open, &.show {
+			> .dropdown-menu {
+				visibility: visible;
+				opacity: 1;
+			}
+		}
+	}
+}

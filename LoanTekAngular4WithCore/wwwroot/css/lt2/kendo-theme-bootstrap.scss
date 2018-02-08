@@ -1,0 +1,21 @@
+﻿@import "variables";
+@import "kendo-variables";
+@import "../../node_modules/@progress/kendo-theme-bootstrap/scss/all";
+
+.k-widget.ng-valid {
+	.k-input {
+		color: $input-color;
+	}
+}
+
+.small, .form-control-sm {
+	.k-input {
+		font-size: $small-font-size;
+	}
+}
+
+.input-group {
+	> .k-widget.form-control {
+		width: 1%;
+	}
+}

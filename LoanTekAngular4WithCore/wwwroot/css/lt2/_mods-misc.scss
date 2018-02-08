@@ -1,0 +1,49 @@
+@import 'variables';
+
+// Font mods
+.bold {
+	font-weight: bold;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.highlight {
+	background-color: #ffff00;
+}
+
+// Updates/Additions to FontAwesome
+.fa-xs, .btn-xs .fa-size {
+	width: 10px;
+	font-size: 11px;
+}
+
+// Cursors
+.cursor {
+	&-pointer {
+		cursor: pointer;
+	}
+	&-disabled, &-not-allowed {
+		cursor: not-allowed;
+	}
+}
+
+// Misc
+.height-auto {
+	height: auto !important;
+}
+
+// Toastr mods
+#toast-container {
+	@include media-breakpoint-up(md) {
+		&.toast-md, &.toast-lg {
+			> .toast { width: 600px; }
+		}
+	}
+	@include media-breakpoint-up(lg) {
+		&.toast-lg {
+			> .toast { width: 900px; }
+		}
+	}
+}

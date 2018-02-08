@@ -1,0 +1,143 @@
+//@import "../../node_modules/bootstrap/scss/functions";
+//@import "../../node_modules/bootstrap/scss/variables";
+
+// Font
+$font-family-sans-serif: Roboto, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+// $line-height-base: 1.5 !default;
+
+// btn-xs
+$border-radius-xs:			.18rem !default;
+$input-btn-padding-y-xs:	.18rem !default;
+$input-btn-padding-x-xs:	.4rem !default;
+$font-size-xs:				.75rem !default;
+$line-height-xs:			1.5 !default;
+$btn-border-radius-xs:		$border-radius-xs !default;
+
+// Grays from Bootstrap 4
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+
+$enable-rounded:            false !default;
+$enable-shadows:            true !default;
+$enable-gradients:          true !default;
+$enable-transitions:        true !default;
+$enable-hover-media-query:  false !default;
+$enable-grid-classes:       true !default;
+$enable-print-styles:       true !default;
+
+// $gray-darker:	$gray-900; // #222
+// $gray-dark:		$gray-800; // #333
+// $gray:			$gray-700; // #555
+// $gray-light:		$gray-600; // #777
+// $gray-lighter:	$gray-200; // #eee
+
+// LT Colors
+$lt-color:						#1E376D !default;
+$lt-color-darker:				darken($lt-color, 10%) !default;
+$lt-color-darker2:				mix($lt-color-darker, $gray-900, 50%) !default;
+$lt-color-lighter:				lighten($lt-color, 10%) !default;
+$lt-color-lighter2:				lighten($lt-color, 30%) !default;
+$lt-link-color-inverse:			lighten($lt-color, 50%) !default;
+$lt-link-hover-color-inverse:	lighten($lt-color, 40%) !default;
+$spinner-color:					#ffffff !default;
+$lt-bg-1:						#28b2a8 !default; //mix(#32c5d2, darkgreen, 80%);
+$lt-bg-2:						#e7505a !default;
+$lt-bg-3:						#8E44AD !default;
+$lt-bg-4:						#3598dc !default;
+$lt-bg-font-color:				#EEE !default;
+
+// Bankrate Colors
+$br-color-1:	#444444 !default;
+$br-color-2:	#28344c !default;
+$br-color-3:	#546a86 !default;
+$br-color-4:	#4375b5 !default;
+$br-color-5:	#3cb878 !default;
+$br-color-6:	#faa845 !default;
+
+// Bankrate Personal Loans colors
+$brpl-color-1:	#3C73D7 !default;
+$brpl-color-2:	#538BEC !default;
+$brpl-color-3:	#45B67A !default;
+$brpl-color-4:	#F9F9F9 !default;
+
+$lt-link-color-default:			$lt-color-lighter2;
+
+
+// Bootstrap 4 colors
+$blue:		$lt-color !default;
+$green:		darken(#5cb85c, 10%) !default;
+$cyan:		darken(#5bc0de, 10%) !default;
+$yellow:	darken(#f0ad4e, 10%) !default;
+$red:		darken(#d9534f, 10%) !default;
+
+// Header
+$page-head-sm-top-height: 75px !default;
+
+// Breadcrumb
+$lt-breadcrumb-bg:					$lt-color-lighter !default; //$breadcrumb-bg;//#CCC;//#f7f7f7;
+$lt-breadcrumb-color:				$gray-200 !default; //#333;//$breadcrumb-color;
+$lt-breadcrumb-active-color:		$gray-600 !default; //$breadcrumb-active-color;
+$lt-breadcrumb-li-margin-right:		6px !default;
+
+// Footer
+$footer-height: 160px;
+
+// header tags
+$font-size-h1:				floor(($font-size-base * 2.15)) !default; // ~30px
+$font-size-h2:				floor(($font-size-base * 1.75)) !default; // ~24px
+$font-size-h3:				ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h4:				ceil(($font-size-base * 1.1)) !default; // ~16px
+
+//Admin Highlighter
+$adminColor:					#8B0000 !default; //darkred
+$adminBgColor:					#ffcc66 !default;
+$adminNavInverseColor:			#333333 !default;
+$adminNavInverseBgColor:		$adminBgColor !default;
+$adminNavInverseBgHoverColor:	lighten($adminNavInverseBgColor, 10%) !default;
+
+$navbar-padding: 8px 20px;
+$navbar-padding-md: 3px 20px;
+
+// Box Shadow
+$box-shadow: 				4px 4px 1px rgba(0,0,0,0.5);
+
+// Navbar
+$navbar-inverse-bg:					$lt-color-darker2;
+$navbar-inverse-link-active-bg:		darken($navbar-inverse-bg, 10%);
+$navbar-inverse-border:				$lt-color-darker;
+$navbar-inverse-link-hover-bg:		darken($navbar-inverse-bg, 10%);
+
+// Dropdown
+$dropdown-border:			#cccccc;
+
+$dropdown-default-bg:				#fff;//@gray-lighter;
+$dropdown-default-border:			$gray-700;
+
+$dropdown-inverse-color:			$gray-200;
+$dropdown-inverse-bg:				$lt-color-darker2;//$lt-color-darker;
+$dropdown-inverse-link-hover-bg:	$lt-color;
+$dropdown-inverse-border:			$lt-color-darker;
+
+$dropdown-bubble-triangle-move:		9px;
+$dropdown-bubble-triangle-size:		7px;
+
+// Thumbnail/Card
+$letter-circle-size: 54px;
+$letter-circle-border-size: 2px;
+$letter-circle-margin-y: 10px;
+$letter-circle-margin-x: 5px;
+$thumbnail-hover-bg: #EEE;
+
+// Modal
+$modal-xl:                    1100px !default;
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";

@@ -1,71 +1,60 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LoanTekAngular4WithCore</title>
+<head class="html-footer-sticky">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - LoanTek</title>
+	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/simple-line-icons.css">
+	<link rel="stylesheet" type="text/css" href="/Content/lt2/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/Content/lt2/kendo-theme-bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/toastr.min.css">
+	<link rel="stylesheet" type="text/css" href="/Content/lt2/site.css">
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+	@RenderSection("head", required: false)
+	@RenderSection("styles", required: false)
+
+	@*@Scripts.Render("~/bundles/shim_polyfill")*@
+	@*<script type="text/javascript" src="//cdn.loantek.com/js/bundle/bootstrap4-bundle.min.js"></script>*@
+
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LoanTekAngular4WithCore</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - LoanTekAngular4WithCore</p>
-        </footer>
-    </div>
-
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
-
-    @RenderSection("Scripts", required: false)
+<body class="page-head-menu-fixed">
+	<div class="page-head page-head-inverse navbar-expand-lg">
+		<div class="page-head-top">
+			<div class="container d-flex flex-row">
+				<div class="page-logo mr-auto"><a href="/"><img src="/Content/images/logo-loantek.com-500px.png" alt="LoanTek" class="logo-lt" /></a></div>
+				<div class="pull-rightZ d-flex flex-row">
+					@*@Html.Partial("_LoginPartial", new ViewDataDictionary { { "user", user } })*@
+					<button type="button" class="navbar-toggler collapsedZZ" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<i class="icon-menu"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		@*@Html.Partial("~/Views/Shared/_PageNavbar.cshtml", new ViewDataDictionary { { "user", user } })*@
+	</div>
+	@RenderSection("PageContentHeader", required: false)
+	<div class="content-wrapper">
+		<div id="MainRenderBody" class="container content">
+			@RenderBody()
+		</div>
+	</div>
+	<div class="footer footer-inverse footer-sticky">
+		<div class="container">
+			<div class="text-center">
+				<p>
+					<a href="https://www.facebook.com/LoanTek/" target="_blank" alt="Facebook"><i class="fa fa-2x fa-facebook-square"></i></a> &nbsp;
+					<a href="https://twitter.com/LoanTekOnline" target="_blank" alt="Twitter"><i class="fa fa-2x fa-twitter-square"></i></a> &nbsp;
+					<a href="https://www.linkedin.com/company/imos" target="_blank" alt="LinkedIn"><i class="fa fa-2x fa-linkedin-square"></i></a> &nbsp;
+					<a href="https://www.youtube.com/channel/UC7oPLj24_jsjzgYKVWWRqAg" target="_blank" alt="YouTube"><i class="fa fa-2x fa-youtube-square"></i></a>
+				</p>
+				<p>&copy; Copyright @DateTime.Now.Year - LoanTek | 1020 West Main Street, Suite 270, Boise, Idaho 83702</p>
+				<p>Support: <a href="mailto:support@loantek.com">support@loantek.com</a> | Call Us: <a href="tel:1-888-562-6835">1-888-562-6835</a></p>
+			</div>
+		</div>
+	</div>
+	@*@Scripts.Render("~/bundles/site-scripts")*@
+	@RenderSection("scripts", required: false)
 </body>
 </html>

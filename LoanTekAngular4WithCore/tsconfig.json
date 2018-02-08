@@ -1,0 +1,28 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"module": "amd",
+		"removeComments": true,
+		// "typeRoots": [ "./Scripts/typings" ],
+		"outDir": "./",
+		"rootDir": "./",
+		"inlineSourceMap": true
+	},
+	"exclude": [
+		"node_modules",
+		"wwwroot",
+		"bower_components",
+		"metronic_assets",
+		"bin",
+		"obj",
+		"Properties",
+		"Models",
+		"Controllers",
+		"Views",
+		"App_Data",
+		"App_Start",
+		// The following folders should have their own tsconfig.json file
+		"Areas/Services",
+		"Scripts/ng4"
+	]
+}

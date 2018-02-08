@@ -1,0 +1,152 @@
+@import "variables";
+@import "mixins";
+
+.bg-admin {
+	background-color: $adminBgColor !important;
+}
+
+.navbar-admin {
+	.navbar-toggler {
+		color: rgba($black, 0.5);
+		border-color: rgba($black, 0.1);
+		&:hover {
+			color: rgba($adminColor, 0.7);
+			border-color: rgba($adminColor, 0.7);
+		}
+	}
+
+	.navbar-nav {
+		.nav-link {
+			color: rgba($black, 0.5);
+			&:hover {
+				color: rgba($adminColor, 0.7);
+			}
+		}
+	}
+
+	.dropdown-menu {
+		background-color: $adminBgColor;
+		label {
+			margin-bottom: 0;
+		}
+	}
+
+	.dropdown-item {
+		&:hover {
+			color: rgba($adminColor, 0.7);
+			background-color: $adminBgColor;
+		}
+	}
+
+	@include media-breakpoint-down(md) {
+		.dropdown-menu {
+			box-shadow: none;
+			border: none;
+			padding: 0.1rem 0;
+		}
+	}
+
+	@include media-breakpoint-up(lg) {
+		padding-top: 0;
+		padding-bottom: 0;
+		.dropdown-menu {
+			margin-top: -0.2rem;
+		}
+	}
+}
+
+.admin-loantek, .role-LoanTekAdmin-or-ClientAdmin326, .role-LoanTekAdmin-or-LoanTekClientID366 {
+	background-color: $adminBgColor;
+	.dropdown .dropdown-menu > & > a {
+		color: $adminNavInverseColor;
+		&:hover {
+			background-color: darken($adminBgColor, 10%);
+		}
+	}
+	.nav.navbar-nav > li > a:hover {
+		background-color: darken($adminBgColor, 10%);
+	}
+	.navbar .navbar-nav > &, .navbar-nav .nav-dropdown ul.nav-dropdown-menu &, &.navbar {
+		> a {
+			color: $adminNavInverseColor;
+			background-color: $adminNavInverseBgColor;
+			&:hover {
+				background-color: darken($adminNavInverseBgColor, 10%);
+			}
+		}
+		.dropdown-menu {
+			color: $adminNavInverseColor;
+			background-color: $adminBgColor;
+			border-color: $adminBgColor;//darken($adminBgColor, 20%);
+			a {
+				color: $adminNavInverseColor;
+				&:hover {
+					background-color: darken($adminBgColor, 10%);
+				}
+			}
+		}
+		.dropdown:hover {
+			> a {
+				background-color: darken($adminBgColor, 10%);
+			}
+		}
+	}
+
+	// Custom Nav Dropdown
+	li.nav-dropdown-sub {
+		.nav-dropdown-subhead, a.nav-dropdown-subhead {
+			color: $adminNavInverseColor//darken($navbar-inverse-link-color, 20%);
+		}
+	}
+
+	&.nav-dropdown {
+		ul {
+			> li {
+				.nav-dropdown-submenu {
+					border-left-color: darken($adminNavInverseBgColor, 30%);
+				}
+			}
+		}
+		&:hover {
+			> .nav-link {
+				color: $adminNavInverseColor;//$navbar-inverse-link-hover-color;
+				background-color: $adminNavInverseBgHoverColor;//#EEE;
+			}
+		}
+
+		@include media-breakpoint-down(md) {
+			border-bottom: 1px solid darken($adminNavInverseBgHoverColor, 5%);
+			&:last {
+				border-bottom: none;
+			}
+		}
+	}
+
+	.nav-dropdown-menu {
+		background-color: mix($adminNavInverseBgColor, #999, 90%);
+		border-color: $dropdown-inverse-border;
+		a {
+			color: $adminNavInverseColor;
+			[class^="icon-"], .fa {
+				color: darken($adminNavInverseColor, 10%);
+			}
+			&:hover {
+				color: $adminNavInverseColor;//$navbar-inverse-link-hover-color;
+				background-color: $adminNavInverseBgHoverColor;//#EEE;
+				[class^="icon-"], .fa {
+					color: $lt-link-color-inverse;
+				}
+			}
+		}
+	}
+}
+
+.copy-id-input {
+	opacity: 0.5;
+	width: 200px;
+	display: none;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: 10000;
+}

@@ -1,0 +1,313 @@
+// Bootstrap overrides (use sparingly and try to use custom classes)
+
+// Font
+// html > body {
+// 	line-height: 1;
+// }
+
+// Buttons
+.btn-loading {
+	position: relative;
+
+	&::before {
+		content: ' ';
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-color: rgba(255,255,255,0.5);
+	}
+
+	&::after {
+		font-family: 'FontAwesome';
+		content: '\f1ce';
+		position: absolute;
+		// position: absolute;
+		// width: 100%;
+		color: $gray-900;
+		animation: fa-spin 2s infinite linear;
+		left: 50%;
+		margin-left: -$font-size-base / 2;
+		// @include loadingBtn();
+	}
+
+	&.btn-xs::after {
+		margin-left: -$font-size-xs / 2;
+	}
+
+	&.btn-sm::after {
+		margin-left: -$font-size-sm / 2;
+	}
+
+	&.btn-lg::after {
+		margin-left: -$font-size-lg / 2;
+	}
+}
+
+.hide-caret {
+	&::after {
+		display: none;
+	}
+}
+
+// btn-xs for Bootstrap 4
+.btn-xs {
+	@include button-size($input-btn-padding-y-xs, $input-btn-padding-x-xs, $font-size-xs, $line-height-xs, $btn-border-radius-xs);
+}
+
+// Size
+.w-0 {
+	width: 0.1%;
+}
+
+// Forms
+.form-horizontal {
+	// Checkbox sizing
+	.checkbox.checkbox-lg, .form-group-lg .checkbox {
+		font-size: $font-size-lg;
+		padding-top: $input-btn-padding-y-lg + 1;
+		input[type=checkbox] {
+			margin-top: 7px;
+		}
+	}
+	.checkbox.checkbox-sm, .form-group-sm .checkbox {
+		font-size: $font-size-sm;
+		padding-top: $input-btn-padding-y-sm + 1;
+		input[type=checkbox] {
+			margin-top: 2px;
+		}
+	}
+
+	.control-label {
+		// Label Alignment
+		&.text-left {
+			text-align: left;
+		}
+
+		// Label Sizing
+		&-sm {
+			font-size: $font-size-sm;
+		}
+		&-lg {
+			font-size: $font-size-lg;
+		}
+	}
+}
+
+// Tables
+.table-no-heading {
+	tbody {
+		> tr {
+			&:first-child {
+				> td {
+					border-top: none;
+				}
+			}
+		}
+	}
+}
+
+.table-borderless {
+	> thead, > tbody, > tfoot {
+		> tr {
+			> td, > th {
+				border: none;
+			}
+		}
+	}
+}
+
+.table-inputpadding {
+	> thead, > tbody, > tfoot {
+		> tr {
+			> td, > th {
+				padding: 0 15px 8px 0;
+				&:last-child {
+					padding-right: 0;
+				}
+			}
+		}
+	}
+}
+
+// Overflow
+.overflow-auto {
+	overflow: auto;
+}
+
+// Modals
+.modal-xl {
+	@include media-breakpoint-up(lg) {
+		max-width: $modal-lg;
+	}
+	@include media-breakpoint-up(xl) {
+		max-width: $modal-xl;
+	}
+}
+
+.modal-full {
+	@include media-breakpoint-up(sm) {
+		max-width: none;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+}
+
+// FontAwesome Checkboxes
+.checkbox-fa {
+	label {
+		padding-left: 0;
+		input[type=checkbox] {
+			// display: none;
+			margin-left: 0;
+			opacity: 0;
+			position: absolute;
+			+ .checkbox-i {
+				display: inline-block;
+				width: 1rem;
+				font-family: 'FontAwesome';
+				font-style: normal;
+				//font-size: 14px;
+				&::before {
+					content: '\f096';
+					// position: absolute;
+					// top: 7px;
+				}
+			}
+			&:checked {
+				+ .checkbox-i {
+					&::before {
+						//content: '\f14a';		// check-square
+						//content: '\f00c';		// check
+						content: '\f046';		// check-square-o
+					}
+				}
+			}
+			&:disabled {
+				+ .checkbox-i {
+					color: $gray-200;
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+}
+
+.form-group-sm .checkbox-fa, .checkbox-fa.checkbox-sm {
+	font-size: $font-size-sm;
+}
+
+
+.form-group-lg .checkbox-fa, .checkbox-fa.checkbox-lg {
+	font-size: $font-size-lg
+}
+
+%checkbox-check-square {
+	content: '\f14a'; // check-square
+}
+@each $color, $value in $theme-colors {
+	.checkbox-#{$color} {
+		&.checkbox-fa label input[type=checkbox]:checked + .checkbox-i {
+			color: $value;
+			&::before {
+				//content: '\f14a';		// check-square
+				@extend %checkbox-check-square;
+			}
+		}
+	}
+}
+
+// Dropdown
+.dropdown-menu-scrollable {
+	max-height: 300px;
+	overflow: auto;
+
+	li .pull-right {
+		margin-top: 2px;
+		margin-left: 24px;
+	}
+}
+
+.dropdown-sub {
+	position: relative;
+
+	> .dropdown-menu {
+		display: none;
+		@include transition(all ease-in-out 0.2s);
+		// @media (max-width: $grid-float-breakpoint-max) {
+		@include media-breakpoint-down(md) {	// include md and down
+			li {
+				padding-left: 30px;
+			}
+		}
+		// @media (min-width: $grid-float-breakpoint) {
+		@include media-breakpoint-up(lg) {	// include lg and up
+			display: block;
+			visibility: hidden;
+			opacity: 0;
+			top: 0;
+			left: 100%;
+
+			&.dropdown-sub-dropup {
+				top: auto;
+				bottom: 0px;
+			}
+		}
+	}
+
+	@mixin sub-open() {
+		> .dropdown-menu {
+			display: block;
+			// @media (min-width: $grid-float-breakpoint) {
+			@include media-breakpoint-up(lg) {
+				visibility: visible;
+				opacity: 1;
+			}
+		}
+
+		> a > .caret {
+			border-left: 4px dashed;
+			border-top: 4px solid transparent;
+			border-bottom: 4px solid transparent;
+		}
+	}
+
+	&.sub-open {
+		@include sub-open();
+		/*> .dropdown-menu {
+		display: block;
+	}
+	> a > .caret {
+		border-left: 4px dashed;
+		border-top: 4px solid transparent;
+		border-bottom: 4px solid transparent;
+	}*/
+	}
+
+	$dropdown-caret-right: 15px;
+	$dropdown-caret-top: 16px;
+	// @media (min-width: $grid-float-breakpoint) {
+	@include media-breakpoint-up(lg) {
+		> a {
+			padding-right: 30px !important;
+
+			> .caret {
+				position: absolute;
+				right: $dropdown-caret-right;
+				top: $dropdown-caret-top;
+			}
+		}
+
+		&:hover {
+			@include sub-open();
+
+			> a {
+				.caret {
+					right: $dropdown-caret-right - 2px;
+					top: $dropdown-caret-top - 2px;
+				}
+			}
+		}
+	}
+}
