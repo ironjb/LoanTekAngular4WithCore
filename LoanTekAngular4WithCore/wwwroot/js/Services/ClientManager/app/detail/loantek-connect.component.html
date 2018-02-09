@@ -1,0 +1,6 @@
+<ng-template #LtConnectRetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<div *ngIf="ltConnect else LtConnectRetrievingData">
+	LoanTek Connect stuff
+</div>

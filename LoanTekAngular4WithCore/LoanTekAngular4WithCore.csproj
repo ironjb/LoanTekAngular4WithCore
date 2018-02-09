@@ -14,10 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Services\Controllers\" />
     <Folder Include="Areas\Services\Data\" />
     <Folder Include="Areas\Services\Models\" />
-    <Folder Include="Areas\Services\Views\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,75 @@
+﻿<ng-template #RetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<div class="pb-1" *ngIf="clientListInfo else RetrievingData">
+	<a name="clientManagerTop"></a>
+	<div *ngIf="clientListInfo?.loggedInUserInfo?.IsRole?.LoanTekAdmin else SingleClient">
+		<div class="slide-left-right-container">
+			<div class="slide-left-right" [@rightLeftSlideContent]="leftRightExp">
+				<div class="row no-gutters">
+					<div class="col-6" [@leftSlideContent]="leftExp">
+						<div class="loading-section-wrapper">
+							<div id="LoadingClientList" class="loading-section" *ngIf="isGettingClientList || isGettingClientData"><i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw text-white"></i></div>
+
+							<div class="table-responsive">
+								<table class="table table-hover small" id="clientAccordion" data-children=".cAccItem">
+									<thead>
+										<tr class="bg-primary text-light">
+											<th class="text-nowrap" (click)="changeSort('ClientId')">Client ID<i *ngIf="sortBy === 'ClientId'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Company')">Company<i *ngIf="sortBy === 'Company'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Contact')">Primary Contact<i *ngIf="sortBy === 'Contact'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Phone')">Phone<i *ngIf="sortBy === 'Phone'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Email')">Email<i *ngIf="sortBy === 'Email'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('City')">City<i *ngIf="sortBy === 'City'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('State')">State<i *ngIf="sortBy === 'State'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Status')">Status<i *ngIf="sortBy === 'Status'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr [formGroup]="scmFilterFG">
+											<td class="text-nowrap">
+												<button class="btn btn-sm btn-outline-secondary" type="button" (click)="filterResults()" data-toggle="tooltip" data-trigger="hover" title="Filter Results"><i class="fa fa-filter"></i></button>
+												<button class="btn btn-sm btn-outline-secondary" type="button" (click)="clearFilter()" data-toggle="tooltip" data-trigger="hover" title="Clear Filter"><i class="fa fa-ban"></i></button>
+											</td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="companyFilter" placeholder="Company" /></td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="contactFilter" placeholder="Contact" /></td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="phoneFilter" placeholder="Phone" /></td>
+											<td>
+												<input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="emailFilter" placeholder="Email" />
+											</td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="cityFilter" placeholder="City" /></td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="stateFilter" placeholder="State" /></td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="statusFilter" placeholder="Status" /></td>
+										</tr>
+										<tr class="cursor-pointer" *ngFor=" let clientRow of clientListInfo.clientList; let cI=index; " (click)="openClientInfo(clientRow);">
+											<td>{{clientRow.ClientId}}</td>
+											<td>{{clientRow.Company}}</td>
+											<td>{{clientRow.Contact}}</td>
+											<td>{{clientRow.Phone}}</td>
+											<td>{{clientRow.Email}}</td>
+											<td>{{clientRow.City}}</td>
+											<td>{{clientRow.State}}</td>
+											<td>{{clientRow.Status}}</td>
+										</tr>
+										<tr *ngIf="clientListInfo?.clientList?.length === 0">
+											<td colspan="8" class="text-center">No Results</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<paging elementid="CMPaging_Main" [page]="clientListInfo.currentPage" [pagesize]="clientListInfo.pageSize" [totalcount]="clientListInfo.clientCount" (pagechange)="pageChange($event)" displaytext="Page #{page} of #{lastPage}"></paging>
+						</div>
+					</div>
+					<div class="col-6" [@rightSlideContent]="rightExp">
+						<div *ngIf="currentClient">
+							<scm-detail-tabs *ngIf="currentClient" [client]="currentClient" [loggedInUserInfo]="clientListInfo.loggedInUserInfo" (close)="closeClientInfoModal()" (updateClient)="updateClient($event)"></scm-detail-tabs>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ng-template #SingleClient>
+		<scm-detail-tabs *ngIf="currentClient" [client]="currentClient" [loggedInUserInfo]="clientListInfo.loggedInUserInfo"></scm-detail-tabs>
+	</ng-template>
+</div>

@@ -1,0 +1,32 @@
+﻿@{
+	ViewBag.Title = "Client Manager";
+}
+<div class="container">
+	<div class="lt-breadcrumb">
+		<ul id="LTClientSiteBreadcrumb" class="breadcrumb">
+			<li class="breadcrumb-item"><i class="fa fa-home"></i><a href="/Services">Services Home</a></li>
+			<li class="breadcrumb-item">Client Manager</li>
+		</ul>
+	</div>
+</div>
+<div class="container pb-4">
+	<scm-app>
+		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading Scripts...
+	</scm-app>
+</div>
+@section head {
+	<meta name="format-detection" content="telephone=no">
+	<base href="/">
+}
+
+@section scripts {
+	<environment include="Development">
+		<script type="text/javascript" src="/js/Services/ClientManager/tmp/webpack/vendor-polyfills.js"></script>
+		<script type="text/javascript" src="/js/Services/ClientManager/tmp/webpack/app.js"></script>
+	</environment>
+	<environment exclude="Development">
+		<script type="text/javascript" src="/js/lib/core-js/shim.min.js"></script>
+		<script type="text/javascript" src="/js/lib/zonejs/zone.min.js"></script>
+		<script type="text/javascript" src="/js/Services/ClientManager/build/scm-build.js?v=180115b"></script>
+	</environment>
+}

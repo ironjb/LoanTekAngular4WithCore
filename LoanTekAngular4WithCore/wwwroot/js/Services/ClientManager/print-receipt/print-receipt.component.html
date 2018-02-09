@@ -1,0 +1,75 @@
+<ng-template #RetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<div class="pb-1" *ngIf="printReceiptData else RetrievingData">
+	<div class="card my-2">
+		<div class="card-body">
+			<div class="text-center"><img class="img-fluid" src="//cdn.loantek.com/images/logo-loantek.com-250px.png" alt="LoanTek" /></div>
+			<address>
+				106 N 6th St. M-5<br />
+				Boise, ID 83702<br />
+				Telephone - 888-562-6835
+			</address>
+			<p>
+				LoanTek Payment Receipt (COPY)<br />
+				{{printReceiptData.PaymentDate | date:'short'}}<br />
+				{{printReceiptData.CustomerName}}
+			</p>
+			<table class="table table-sm">
+				<tbody>
+					<tr>
+						<td class="pr-lbl-min">Payment Response</td>
+						<td>{{printReceiptData.PaymentResponse}}</td>
+					</tr>
+					<tr>
+						<td>Customer Name</td>
+						<td>{{printReceiptData.CustomerName}}</td>
+					</tr>
+					<tr>
+						<td>Card Type</td>
+						<td>{{printReceiptData.CardType}}</td>
+					</tr>
+					<tr>
+						<td>Reference Number</td>
+						<td>{{printReceiptData.ReferenceNumber}}</td>
+					</tr>
+					<tr>
+						<td>Card Number</td>
+						<td>{{printReceiptData.FormattedCardNumber}}</td>
+					</tr>
+					<!-- Transaction Type??? -->
+					<!-- Entry Method??? -->
+					<tr>
+						<td>Amount</td>
+						<td>{{printReceiptData.PaymentAmount | currency:'USD':true:'1.2-2'}}</td>
+					</tr>
+					<tr>
+						<td>Approval Code</td>
+						<td>{{printReceiptData.AppCode}}</td>
+					</tr>
+					<tr>
+						<td>Approval Message</td>
+						<td>{{printReceiptData.AppMessage}}</td>
+					</tr>
+					<tr>
+						<td>AVS Result</td>
+						<td>{{printReceiptData.AvsResponse}}</td>
+					</tr>
+					<tr>
+						<td>CSC Result</td>
+						<td>{{printReceiptData.CscRepsonse}}</td>
+					</tr>
+					<tr>
+						<td>Invoice</td>
+						<td>{{printReceiptData.InvoiceNumber}}</td>
+					</tr>
+					<tr>
+						<td>Notes</td>
+						<td>{{printReceiptData.InvoiceComments}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<button class="btn btn-primary btn-sm d-print-none" type="button" (click)="printReceipt()">Print</button>
+		</div>
+	</div>
+</div>

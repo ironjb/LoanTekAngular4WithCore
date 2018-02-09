@@ -1,0 +1,12 @@
+<simple-modal #deleteBranchModal modalTitle="Delete Branch?" elementId="deleteBranchModal" modalSizeClass="modal-sm" titleBgClass="bg-danger" titleColorClass="text-white">
+	<div *ngIf="currentBranch">
+		<form (ngSubmit)="deleteBranch($event, currentBranch)">
+			<p><strong>Branch:</strong> {{currentBranch.BranchName}}</p>
+			<p>Are you sure you want to delete this branch?</p>
+			<div class="text-right">
+				<button class="btn btn-danger mr-1" type="submit" [class.btn-loading]="disableDeleteBranchBtn" [disabled]="disableDeleteBranchBtn"><i class="fa fa-trash"></i> Delete</button>
+				<button class="btn btn-secondary" type="button" (click)="deleteBranchModal.closeModal()">Cancel</button>
+			</div>
+		</form>
+	</div>
+</simple-modal>

@@ -1,0 +1,113 @@
+﻿<ng-template #RetrievingUserListData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving User List...
+</ng-template>
+<div class="pb-1" *ngIf="userListInfo else RetrievingUserListData">
+	<a name="userManagerTop"></a>
+	<div *ngIf="userListInfo?.loggedInUserInfo?.IsRole?.ClientSalesAdmin else SingleUser">
+		<div class="slide-left-right-container">
+			<div class="slide-left-right" [@rightLeftSlideContent]="leftRightExp">
+				<div class="row no-gutters">
+					<div class="col-6" [@leftSlideContent]="leftExp">
+						<div class="loading-section-wrapper">
+							<div id="LoadingUserList" class="loading-section" *ngIf="isGettingUserList || isGettingUserData"><i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw text-white"></i></div>
+
+							<button class="btn btn-success mb-2" (click)="showAddNewUser()"><i class="fa fa-plus"></i> Add User</button>
+
+							<div class="table-responsive">
+								<table class="table table-hover small">
+									<thead>
+										<tr class="bg-primary text-light">
+											<th class="text-nowrap" (click)="changeSort('UserId')">User ID<i *ngIf="sortBy === 'UserId'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<!-- <th class="text-nowrap" (click)="changeSort('ClientName')">Client Name<i *ngIf="sortBy === 'ClientName'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th> -->
+											<th class="text-nowrap" (click)="changeSort('FirstName')">First Name<i *ngIf="sortBy === 'FirstName'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('LastName')">Last Name<i *ngIf="sortBy === 'LastName'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Phone')">Phone<i *ngIf="sortBy === 'Phone'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Email')">Email<i *ngIf="sortBy === 'Email'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('LastLogin')">Last Login<i *ngIf="sortBy === 'LastLogin'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('Active')">Active<i *ngIf="sortBy === 'Active'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+											<th class="text-nowrap" (click)="changeSort('UserRole')">User Role<i *ngIf="sortBy === 'UserRole'" class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}"></i></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr [formGroup]="sumFilterFG">
+											<td class="text-nowrap">
+												<!-- <button class="btn btn-sm btn-outline-secondary" type="button" (click)="filterResults()" data-toggle="tooltip" data-trigger="hover" title="Filter Results"><i class="fa fa-filter"></i></button> -->
+												<button class="btn btn-sm btn-outline-secondary" type="button" (click)="clearFilter()" data-toggle="tooltip" data-trigger="hover" title="Clear Filter"><i class="fa fa-ban"></i></button>
+											</td>
+											<!-- <td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="clientNameFilter" placeholder="Client Name" /></td> -->
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="firstNameFilter" placeholder="First Name" /></td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="lastNameFilter" placeholder="Last Name" /></td>
+											<td>
+												<input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="phoneFilter" placeholder="Phone" />
+											</td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="emailFilter" placeholder="Email" /></td>
+											<td class="lastLoginFilterWrap">
+												<!-- <input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="lastLoginFilter" placeholder="Last Login" /> -->
+												<div class="input-group">
+													<!-- <input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="lastLoginFilter" placeholder="Last Login" /> -->
+													<kendo-datepicker class="form-control form-control-sm" format="MM/dd/yyyy" formatPlaceholder="formatPattern" (valueChange)="filterResults()" formControlName="lastLoginFilter"></kendo-datepicker>
+													<input type="hidden" formControlName="lastLoginOpFilter" />
+													<div class="input-group-btn input-group-append">
+														<button class="btn btn-sm btn-outline-secondary dropdown-toggle hide-caret" data-toggle="dropdown"><i class="fa fa-chevron-down"></i></button>
+														<div class="dropdown-menu dropdown-menu-right">
+															<a href="javascript:;" class="dropdown-item small" (click)="changeLastLoginOp('gt')" [class.active]="lastLoginOpFilter.value === 'gt'">&gt; Greater Than</a>
+															<a href="javascript:;" class="dropdown-item small" (click)="changeLastLoginOp('gte')" [class.active]="lastLoginOpFilter.value === 'gte'">&gt;= Greater Than or Equal To</a>
+															<a href="javascript:;" class="dropdown-item small" (click)="changeLastLoginOp('lt')" [class.active]="lastLoginOpFilter.value === 'lt'">&lt; Less Than</a>
+															<a href="javascript:;" class="dropdown-item small" (click)="changeLastLoginOp('lte')" [class.active]="lastLoginOpFilter.value === 'lte'">&lt;= Less Than or Equal To</a>
+															<a href="javascript:;" class="dropdown-item small" (click)="changeLastLoginOp('eq')" [class.active]="lastLoginOpFilter.value === 'eq'">= Equal To</a>
+														</div>
+													</div>
+												</div>
+											</td>
+											<td class="activeFilterWrap">
+												<!-- <input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="activeFilter" placeholder="Active" /> -->
+												<select class="form-control form-control-sm" formControlName="activeFilter" (change)="filterResults()">
+													<option value="">All</option>
+													<option value="true">Active</option>
+													<option value="false">Inactive</option>
+												</select>
+											</td>
+											<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="userRoleFilter" placeholder="User Role" /></td>
+										</tr>
+										<tr class="cursor-pointer" *ngFor=" let userRow of userListInfo?.userList; let cI=index; " (click)="openUserInfo(userRow);">
+											<td>{{userRow.UserId}}</td>
+											<!-- <td>{{userRow.ClientName}}</td> -->
+											<td>{{userRow.FirstName}}</td>
+											<td>{{userRow.LastName}}</td>
+											<td>{{userRow.Phone}}</td>
+											<td>{{userRow.Email}}</td>
+											<td>{{userRow.LastLogin | date:'shortDate'}}</td>
+											<td>
+												<!-- {{userRow.Active}} -->
+												<span class="badge badge-success" *ngIf="userRow.Active else inactiveBadge">A</span>
+												<ng-template #inactiveBadge><span class="badge badge-secondary">I</span></ng-template>
+											</td>
+											<td>{{userRow.UserRole}}</td>
+										</tr>
+										<tr *ngIf="userListInfo?.userList?.length === 0">
+											<td colspan="9" class="text-center">No Results</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<paging elementid="UMPaging_Main" [page]="userListInfo.currentPage" [pagesize]="userListInfo.pageSize" [totalcount]="userListInfo.userCount" (pagechange)="pageChange($event)" displaytext="Page #{page} of #{lastPage}"></paging>
+							<!-- {{userListInfo | json}} -->
+						</div>
+					</div>
+					<div class="col-6" [@rightSlideContent]="rightExp">
+						<div *ngIf="currentUser">
+							<sum-detail-tabs *ngIf="currentUser" [user]="currentUser" [loggedInUserInfo]="userListInfo.loggedInUserInfo" (close)="closeUserInfoPane()" (updateUser)="updateUser($event)"></sum-detail-tabs>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<simple-modal #addNewUserModal modalTitle="Add New User" elementId="addNewUserModal" modalSizeClass="modal-xl" titleBgClass="bg-success" titleColorClass="text-white" (onShow)="resetAddNewUser()">
+			<sum-add-new-user #addUser [loggedInUserInfo]="userListInfo.loggedInUserInfo" (done)="addNewUserModal.closeModal()" (cancel)="addNewUserModal.closeModal()"></sum-add-new-user>
+		</simple-modal>
+	</div>
+	<ng-template #SingleUser>
+		<sum-detail-tabs *ngIf="currentUser" [user]="currentUser" [loggedInUserInfo]="userListInfo.loggedInUserInfo"></sum-detail-tabs>
+	</ng-template>
+</div>

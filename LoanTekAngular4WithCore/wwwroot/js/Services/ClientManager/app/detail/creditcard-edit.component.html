@@ -1,0 +1,125 @@
+<ng-template #CreditCardEditRetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<div *ngIf="creditcard else CreditCardEditRetrievingData">
+	<form [formGroup]="cardEditFG" (ngSubmit)="saveCreditCard()">
+		<div class="row">
+			<div class="col-lg">
+				<div class="row form-group">
+					<label for="FirstName_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">First Name</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="FirstName_{{creditcard.ClientId}}" placeholder="First Name" formControlName="FirstName" [class.is-invalid]="isInvalidDirtyTouched(FirstName)" />
+						<div class="invalid-feedback">*Required</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label for="LastName_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Last Name</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="LastName_CC_{{creditcard.ClientId}}" placeholder="Last Name" formControlName="LastName" [class.is-invalid]="isInvalidDirtyTouched(LastName)" />
+						<div class="invalid-feedback">*Required</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label for="Address1_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Address 1</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="Address1_CC_{{creditcard.ClientId}}" placeholder="Address 1" formControlName="Address1" [class.is-invalid]="isInvalidDirtyTouched(Address1)" />
+						<div class="invalid-feedback">*Required</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label for="Address2_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Address 2</label>
+					<div class="col-md-8"><input type="text" class="form-control" id="Address2_CC_{{creditcard.ClientId}}" placeholder="Address 2" formControlName="Address2" /></div>
+				</div>
+				<div class="row form-group">
+					<label for="City_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">City</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="City_CC_{{creditcard.ClientId}}" placeholder="City" formControlName="City" [class.is-invalid]="isInvalidDirtyTouched(City)" />
+						<div class="invalid-feedback">*Required</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label for="State_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">State / Zip</label>
+					<div class="col-md-8">
+						<div class="form-row">
+							<div class="col-8">
+								<select  class="form-control" id="State_CC_{{creditcard.ClientId}}" name="State_CC_{{creditcard.ClientId}}" formControlName="State" [class.is-invalid]="isInvalidDirtyTouched(State)">
+									<option class="disabled" value="" disabled="disabled">State</option>
+									<option *ngFor="let state of stateList" [value]="state.abbreviation">{{state.name}}</option>
+								</select>
+								<div class="invalid-feedback">*Required</div>
+							</div>
+							<div class="col-4">
+								<input type="text" class="form-control" id="Zip_CC_{{creditcard.ClientId}}" placeholder="Zip" formControlName="Zip" [class.is-invalid]="isInvalidDirtyTouched(Zip)" />
+								<div class="invalid-feedback">*Required</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label for="Phone_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Phone</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="Phone_CC_{{creditcard.ClientId}}" placeholder="Phone" formControlName="Phone" />
+					</div>
+				</div>
+			</div>
+			<div class="col-lg">
+				<div class="row form-group" *ngIf="!creditcard.CardId else CurrentCardRow">
+					<label for="Number_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Card Number</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="Number_CC_{{creditcard.ClientId}}" placeholder="Card Number" formControlName="Number" [class.is-invalid]="isInvalidDirtyTouched(Number)" />
+						<div class="invalid-feedback">*Required</div>
+					</div>
+				</div>
+				<ng-template #CurrentCardRow>
+					<div class="row form-group">
+						<label for="Number_display_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Card Number</label>
+						<div class="col-md-8">
+							<div class="form-control-plaintext">{{clientService.cardNumberFormat(creditcard.Number)}}</div>
+							<input type="hidden" formControlName="Number" />
+						</div>
+					</div>
+				</ng-template>
+				<div class="row form-group">
+					<label for="CardType_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Card Type</label>
+					<div class="col-md-8">
+						<select class="form-control" id="CardType_CC_{{creditcard.ClientId}}" name="CardType_CC_{{creditcard.ClientId}}" placeholder="CardType" formControlName="CardType" [class.is-invalid]="isInvalidDirtyTouched(CardType)">
+							<option class="disabled" value="" disabled="disabled">Card Type</option>
+							<option *ngFor="let cardType of cardTypeList" [value]="cardType.Text">{{cardType.Text}}</option>
+						</select>
+						<div class="invalid-feedback">*Required</div>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label for="ExpirationMonth_CC_{{creditcard.ClientId}}" class="col-md-4 col-form-label text-md-right">Expiration</label>
+					<div class="col-md-8">
+						<div class="form-row">
+							<div class="col-8">
+								<select class="form-control" id="ExpirationMonth_CC_{{creditcard.ClientId}}" placeholder="ExpirationMonth" formControlName="ExpirationMonth" [class.is-invalid]="isInvalidDirtyTouched(ExpirationMonth)">
+									<option class="disabled" value="" disabled="disabled">Month</option>
+									<option *ngFor="let mnth of monthsList" [value]="mnth.Value">{{mnth.Text}}</option>
+								</select>
+								<div class="invalid-feedback">*Required</div>
+							</div>
+							<div class="col-4">
+								<select class="form-control" id="ExpirationYear_CC_{{creditcard.ClientId}}" placeholder="ExpirationYear" formControlName="ExpirationYear" [class.is-invalid]="isInvalidDirtyTouched(ExpirationYear)">
+									<option class="disabled" value="" disabled="disabled">Year</option>
+									<option *ngFor="let yr of yearList" [value]="yr">{{yr}}</option>
+								</select>
+								<div class="invalid-feedback">*Required</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col text-right">
+				<button class="btn btn-success" type="submit" [class.btn-loading]="isDisabledSaveBtn" [disabled]="isDisabledSaveBtn">
+					<span *ngIf="!creditcard.CardId else UpdateCard"><i class="fa fa-plus"></i> Add New Credit Card</span>
+					<ng-template #UpdateCard>Save Changes</ng-template>
+				</button>
+				<button class="btn btn-danger" type="button" (click)="closeCardEdit()" [disabled]="isDisabledSaveBtn">Cancel</button>
+			</div>
+		</div>
+	</form>
+</div>

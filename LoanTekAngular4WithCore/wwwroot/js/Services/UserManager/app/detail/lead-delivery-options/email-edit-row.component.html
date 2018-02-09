@@ -1,0 +1,35 @@
+<ng-container *ngIf="!showEditEmail else editEmailOpt">
+	<td><div class="form-control-plaintext">{{emailOpt.Email}}</div></td>
+	<td class="text-center">
+		<div class="form-control-plaintext">
+			<i class="text-secondary fa {{emailOpt?.UseForTaskReminder? 'fa-check-square-o': 'fa-square-o'}}"></i>
+		</div>
+	</td>
+	<td class="text-nowrap text-right">
+		<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Edit" (click)="showEditEmailForm()"><i class="fa fa-pencil-square-o"></i></button>
+		<button class="btn btn-danger btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Delete" (click)="confirmDeleteEmail()"><i class="fa fa-trash"></i></button>
+	</td>
+</ng-container>
+<ng-template #editEmailOpt>
+	<ng-container [formGroup]="editEmailFG">
+		<td>
+			<input type="text" class="form-control form-control-sm" formControlName="Email" placeholder="Email" [class.is-invalid]="cm.isInvalidDirtyAndTouched(Email)" (keyup.enter)="saveEmail()" />
+			<ng-container *ngIf="Email.errors">
+				<div class="invalid-feedback" *ngIf="Email.errors.required">*Email is required</div>
+				<div class="invalid-feedback" *ngIf="Email.errors.email && !Email.errors.required">*Please enter a valid email</div>
+			</ng-container>
+		</td>
+		<td class="text-center">
+			<div class="checkbox checkbox-fa">
+				<label class="col-form-label">
+					<input type="checkbox" [checked]="emailOpt?.UseForTaskReminder" />
+					<i class="checkbox-i"></i>
+				</label>
+			</div>
+		</td>
+		<td class="text-nowrap text-right">
+			<button class="btn btn-success btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Save" (click)="saveEmail()" [class.btn-loading]="isSaveBtnDisabled" [disabled]="isSaveBtnDisabled"><i class="fa fa-floppy-o"></i></button>
+			<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Close" (click)="closeEditEmail()" [disabled]="isSaveBtnDisabled"><i class="fa fa-times"></i></button>
+		</td>
+	</ng-container>
+</ng-template>

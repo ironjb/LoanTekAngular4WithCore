@@ -1,0 +1,128 @@
+<div class="row">
+	<div class="col-lg-6">
+		<div class="card mb-3">
+			<h5 class="card-header">Deliver By Email</h5>
+			<div class="card-body">
+				<button class="btn btn-sm {{showAddEmail ? 'btn-disabled' : 'btn-success'}}" type="button" (click)="showAddEmailForm()" [disabled]="showAddEmail"><i class="fa fa-plus"></i> Add New Email Address</button>
+			</div>
+			<!-- {{deliverByEmailOptions | json}} -->
+			<div class="table-responsive">
+				<table class="table table-sm small mb-0">
+					<thead>
+						<tr>
+							<th>Email Address</th>
+							<th class="text-center">User For Task Reminder</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngIf="showAddEmail" [formGroup]="addEmailFG">
+							<td>
+								<input type="email" class="form-control form-control-sm" placeholder="Email" formControlName="Email" [class.is-invalid]="cm.isInvalidDirtyAndTouched(Email)" />
+								<ng-container *ngIf="Email.errors">
+									<div class="invalid-feedback" *ngIf="Email.errors.required">*Email is required</div>
+									<div class="invalid-feedback" *ngIf="Email.errors.email && !Email.errors.required">*Please enter a valid email</div>
+								</ng-container>
+							</td>
+							<td class="text-center">
+								<div class="checkbox checkbox-fa">
+									<label for="AddEmail_UserForTaskReminder" class="col-form-label">
+										<input id="AddEmail_UserForTaskReminder" type="checkbox" formControlName="UseForTaskReminder" />
+										<i class="checkbox-i"></i>
+									</label>
+								</div>
+							</td>
+							<td class="text-nowrap text-right">
+								<button class="btn btn-success btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Add Email" (click)="addNewEmail()" [class.btn-loading]="isAddEmailBtnDisabled" [disabled]="isAddEmailBtnDisabled"><i class="fa fa-plus"></i></button>
+								<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Close" (click)="hideAddEmailForm()" [disabled]="isAddEmailBtnDisabled"><i class="fa fa-times"></i></button>
+							</td>
+						</tr>
+						<tr *ngFor="let edo of deliverByEmailOptions" sum-email-edit-row [emailOpt]="edo" (deleteEmail)="confirmDeleteDeliverByEmail($event)"></tr>
+						<tr *ngIf="!deliverByEmailOptions?.length">
+							<td colspan="3" class="text-center">No Emails found.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- <h5>Deliver By Email</h5> -->
+		<!--
+			button.btn.btn-success>i.fa.fa-plus+{ Add New Email Address}^.table-responsive>table.table.table-sm.small>thead>tr>th{&nbsp;}+th{Email Address}+th.text-center{User For Task Reminder}^^tbody>tr>td{blah}*3
+		-->
+	</div>
+	<div class="col-lg-6">
+		<!-- <h5>Deliver By SMS</h5> -->
+		<div class="card">
+			<h5 class="card-header">Deliver By SMS</h5>
+			<div class="card-body">
+				<button class="btn btn-sm {{showAddSms ? 'btn-disabled' : 'btn-success'}}" type="button" (click)="showAddSmsForm()" [disabled]="showAddSms"><i class="fa fa-plus"></i> Add New SMS Number</button>
+			</div>
+			{{deliverBySmsOptions | json}}
+			<div class="table-responsive">
+				<table class="table table-sm small mb-0">
+					<thead>
+						<tr>
+							<th>SMS Number</th>
+							<th class="text-center">SMS Provider</th>
+							<th class="text-center">User For Task Reminder</th>
+							<th class="text-center">SMS Test</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngIf="showAddSms" [formGroup]="addSmsFG">
+							<td>
+								<kendo-maskedtextbox class="form-control form-control-sm" mask="(000) 000-0000" formControlName="SmsNumber" [class.is-invalid]="cm.isInvalidDirtyAndTouched(SmsNumber)"></kendo-maskedtextbox>
+								<div class="invalid-feedback">*SMS Number is required</div>
+								<!-- Errors: {{SmsNumber.errors | json}}<br />
+								touched: {{SmsNumber.touched}}<br />
+								dirty: {{SmsNumber.dirty}}<br />
+								invalid: {{SmsNumber.invalid}}<br />
+								pristine: {{SmsNumber.pristine}}<br />
+								status: {{SmsNumber.status}}<br /> -->
+							</td>
+							<td class="text-center">
+								<select name="AddSms_SpId" id="AddSms_SpId" class="form-control form-control-sm" formControlName="SpId">
+									<option value="" class="disabled" disabled="disabled">Select Provider</option>
+									<option *ngFor="let prov of smsProviderList" [value]="prov.Value">{{prov.Text}}</option>
+								</select>
+							</td>
+							<td class="text-center">
+								<div class="checkbox checkbox-fa">
+									<label for="AddSms_UserForTaskReminder" class="col-form-label">
+										<input id="AddSms_UserForTaskReminder" type="checkbox" formControlName="UseForTaskReminder" />
+										<i class="checkbox-i"></i>
+									</label>
+								</div>
+							</td>
+							<td class="text-center">
+								<button class="btn btn-sm btn-outline-secondary" type="button" (click)="testSms()">Test</button>
+							</td>
+							<td class="text-nowrap text-right">
+								<button class="btn btn-success btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Add SMS Number" (click)="addNewSms()" [class.btn-loading]="isAddSmsBtnDisabled" [disabled]="isAddSmsBtnDisabled"><i class="fa fa-plus"></i></button>
+								<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="tooltip" data-trigger="hover" title="Close" (click)="hideAddSmsForm()" [disabled]="isAddSmsBtnDisabled"><i class="fa fa-times"></i></button>
+							</td>
+						</tr>
+						<tr *ngIf="!deliverBySmsOptions?.length">
+							<td class="text-center" colspan="5">No SMS Numbers found.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<h5>Deliver By LoanTek Connect</h5>
+	</div>
+</div>
+<h5>LoanTek Connect 2.0</h5>
+should be 2 columns instead of three with LoanTek Connect in second row?
+
+<simple-modal #deleteDeliverByEmailModal modalTitle="Delete Email" elementId="LDO_DeleteEmail" modalSizeClass="modal-md" titleBgClass="bg-danger" titleColorClass="text-white">
+	<p>Are you sure you want to delete this <strong>Deliver By Email</strong>?</p>
+	<p><strong>Email</strong>: {{currentDeliverByEmailOption?.Email}}</p>
+	<div class="text-right">
+		<button class="btn btn-danger" type="button" (click)="deleteDeliverByEmail()" [class.btn-loading]="isDeleteEmailBtnDisabled" [disabled]="isDeleteEmailBtnDisabled"><i class="fa fa-trash"></i> Delete</button>
+		<button class="btn btn-secondary" type="button" (click)="deleteDeliverByEmailModal.closeModal()" [disabled]="isDeleteEmailBtnDisabled">Cancel</button>
+	</div>
+</simple-modal>

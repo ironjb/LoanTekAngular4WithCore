@@ -1,0 +1,30 @@
+﻿{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"lib": [ "es2015", "dom", "es5", "es6" ],
+		"noImplicitAny": true,
+		"baseUrl": "./",
+		"paths": {
+			"ltCommon/*": [ "./../../ng4/common/*" ]
+		},
+		"suppressImplicitAnyIndexErrors": true,
+		"typeRoots": [
+			"./../../../../node_modules/@types"
+		]
+	},
+	"exclude": [
+		"node_modules",
+		"**/*-aot.ts",
+		"*/tmp"
+	],
+	"awesomeTypescriptLoaderOptions": {
+		"useWebpackText": true
+		// , "configFileName": "tsconfig-webpack-jit.json"
+	}
+}

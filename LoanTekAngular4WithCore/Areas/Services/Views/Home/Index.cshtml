@@ -1,0 +1,44 @@
+﻿@{
+	ViewBag.Title = "Services";
+}
+
+<div class="container">
+	<div class="lt-breadcrumb">
+		<ul id="LTClientSiteBreadcrumb" class="breadcrumb">
+			<li class="breadcrumb-item">
+				<i class="fa fa-home"></i>
+				Services Home
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="role-gte-ClientSalesAdmin col-sm-4 col-lg-3">
+			<a class="card lt-card-link text-center" href="/Services/BranchManager">
+				<span class="lt-letter-circle center">
+					<span class="fa fa-building"></span>
+				</span>
+				<h3>Branch Manager</h3>
+			</a>
+		</div>
+		<div class="role-gte-ClientSalesAdmin col-sm-4 col-lg-3">
+			<a class="card lt-card-link text-center" href="/Services/ClientManager">
+				<span class="lt-letter-circle center">
+					<span class="fa fa-vcard"></span>
+				</span>
+				<h3>Client Manager</h3>
+			</a>
+		</div>
+		<div class="role-gte-ClientUserLMOnly col-sm-4 col-lg-3">
+			<a class="card lt-card-link text-center btn disabledZ" href="/Services/UserManager">
+				<span class="lt-letter-circle center">
+					<span class="fa fa-users"></span>
+				</span>
+				<h3 class="mb-0">User Manager</h3>
+				<!-- <div class="small">(Coming soon)</div> -->
+			</a>
+		</div>
+	</div>
+</div>

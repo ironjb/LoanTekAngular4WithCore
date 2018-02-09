@@ -1,0 +1,160 @@
+<div class="alert alert-danger">
+	<div>Your current Package only includes 5??? users and all seat licenses have been filled.</div>
+	<div>To add additional users, please contact Support to update your Package.</div>
+</div>
+
+<form [formGroup]="addUserFG" (ngSubmit)="addNewUser()">
+	<div class="row">
+		<div class="col-lg">
+			<div class="row form-group">
+				<label for="Title_AddNewUser" class="col-md-4 col-form-label text-md-right">Title</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="Title_AddNewUser" placeholder="Title" formControlName="Title" [class.is-invalid]="isInvalidDirtyTouched(Title)" [class.is-invalid]="isInvalidDirtyTouched(Title)" />
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="FirstName_AddNewUser" class="col-md-4 col-form-label text-md-right">Name</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col">
+							<input type="text" class="form-control" id="FirstName_AddNewUser" placeholder="First Name" formControlName="FirstName" [class.is-invalid]="isInvalidDirtyTouched(FirstName)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+						<div class="col">
+							<input type="text" class="form-control" id="LastName_AddNewUser" placeholder="Last Name" formControlName="LastName" [class.is-invalid]="isInvalidDirtyTouched(LastName)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="Address_AddNewUser" class="col-md-4 col-form-label text-md-right">Address</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="Address_AddNewUser" placeholder="Address" formControlName="Address" [class.is-invalid]="isInvalidDirtyTouched(Address)" />
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="City_AddNewUser" class="col-md-4 col-form-label text-md-right">City</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="City_AddNewUser" placeholder="City" formControlName="City" [class.is-invalid]="isInvalidDirtyTouched(City)" />
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="State_AddNewUser" class="col-md-4 col-form-label text-md-right">State / Zip</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col-8">
+							<select class="form-control" id="State_AddNewUser" formControlName="State" [class.is-invalid]="isInvalidDirtyTouched(State)">
+								<option class="disabled" value="" disabled="disabled">Select State...</option>
+								<option *ngFor="let st of states" [value]="st.abbreviation">{{st.name}}</option>
+							</select>
+							<div class="invalid-feedback">*Required</div>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" id="ZipCode_AddNewUser" placeholder="ZipCode" formControlName="ZipCode" [class.is-invalid]="isInvalidDirtyTouched(ZipCode)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="Phone_AddNewUser" class="col-md-4 col-form-label text-md-right">Phone</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col-8">
+							<input type="text" class="form-control" id="Phone_AddNewUser" placeholder="Phone" formControlName="Phone" [class.is-invalid]="isInvalidDirtyTouched(Phone)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" id="Ext_AddNewUser" placeholder="Ext" formControlName="Ext" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="CellPhone_AddNewUser" class="col-md-4 col-form-label text-md-right">Cell Phone</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="CellPhone_AddNewUser" placeholder="Cell Phone" formControlName="CellPhone" /></div>
+			</div>
+			<div class="row form-group">
+				<label for="HomePhone_AddNewUser" class="col-md-4 col-form-label text-md-right">Home Phone</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="HomePhone_AddNewUser" placeholder="Home Phone" formControlName="HomePhone" /></div>
+			</div>
+		</div>
+		<div class="col-lg">
+			<div class="row form-group">
+				<label for="Email_AddNewUser" class="col-md-4 col-form-label text-md-right">Email</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="Email_AddNewUser" placeholder="Email" formControlName="Email" [class.is-invalid]="isInvalidDirtyTouched(Email)" />
+					<ng-container *ngIf="Email.errors">
+						<div class="invalid-feedback" *ngIf="Email.errors.required">*Email is required</div>
+						<div class="invalid-feedback" *ngIf="Email.errors.email && !Email.errors.required">*Please enter a valid email</div>
+					</ng-container>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="Password_AddNewUser" class="col-md-4 col-form-label text-md-right">Password</label>
+				<div class="col-md-8">
+					<input type="password" class="form-control" id="Password_AddNewUser" placeholder="Password" formControlName="Password" [class.is-invalid]="isInvalidDirtyTouched(Password)" />
+					<ng-container *ngIf="Password.errors">
+						<div class="invalid-feedback" *ngIf="Password.errors.required">*Password is required</div>
+						<div class="invalid-feedback" *ngIf="Password.errors.minlength">*Must be at least {{Password.errors.minlength.requiredLength}} characters.</div>
+					</ng-container>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="UserRole_AddNewUser" class="col-md-4 col-form-label text-md-right">User Role</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col">
+							<select name="UserRole_AddNewUser" id="UserRole_AddNewUser" class="form-control" formControlName="UserRole" [class.is-invalid]="isInvalidDirtyTouched(UserRole)">
+								<option class="disabled" value="" disabled="disabled">Select User Role...</option>
+								<option *ngFor="let ur of userRoles" [value]="ur.Value">{{ur.Text}}</option>
+							</select>
+							<div class="invalid-feedback">*Required</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="TimeZonePreference_AddNewUser" class="col-md-4 col-form-label text-md-right">Time Zone</label>
+				<div class="col-md-8">
+					<select name="TimeZonePreference_AddNewUser" id="TimeZonePreference_AddNewUser" class="form-control" formControlName="TimeZonePreference" [class.is-invalid]="isInvalidDirtyTouched(TimeZonePreference)">
+						<option class="disabled" value="" disabled="disabled">Select Time Zone...</option>
+						<option *ngFor="let tz of timeZones" [value]="tz.Value">{{tz.Text}}</option>
+					</select>
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="NMLS_AddNewUser" class="col-md-4 col-form-label text-md-right">NMLS#</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="NMLS_AddNewUser" placeholder="NMLS #" formControlName="NMLS" /></div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="row form-group">
+				<div class="col-md-8 offset-md-4 col-lg-10 offset-lg-2">
+					<div class="alert alert-info mb-0 small">Your account already has 10??? users. Adding this user will add an Additional User license at the cost of $45.00??? per month.</div>
+					<div class="checkbox checkbox-fa" [class.text-danger]="isInvalidDirtyTouched(AdditionalUserAgreement)">
+						<label for="AdditionalUserAgreement_AddNewUser" class="col-form-label">
+							<input id="AdditionalUserAgreement_AddNewUser" type="checkbox" formControlName="AdditionalUserAgreement" />
+							<i class="checkbox-i"></i>
+							By adding this new Additional User, I agree to LoanTek billing my active credit card $45.00???, and then continue billing at $45.00??? monthly.
+						</label>
+					</div>
+					showAdditionalUserAgreement: {{showAdditionalUserAgreement}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col text-right">
+			<button class="btn btn-success" type="submit" [class.btn-loading]="isAddNewUserBtnDisabled" [disabled]="isAddNewUserBtnDisabled">Add New User</button>
+			<button class="btn btn-outline-secondary" type="button" [disabled]="isAddNewUserBtnDisabled" (click)="closeAddUser()">Cancel</button>
+		</div>
+	</div>
+</form>

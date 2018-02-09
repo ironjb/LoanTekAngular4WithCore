@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"lib": [ "es2015", "dom" ],
+		"noImplicitAny": true,
+		"baseUrl": "./",
+		"paths": {
+			"ltCommon/*": ["./../ng4/common/*"]
+		},
+		"suppressImplicitAnyIndexErrors": true
+	},
+	"exclude": [
+		"node_modules",
+		"**/*-aot.ts",
+		"*/tmp"
+	]
+}

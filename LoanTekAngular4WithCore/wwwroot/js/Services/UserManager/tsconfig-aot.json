@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "es2015",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"lib": [ "es2015", "dom" ],
+		"noImplicitAny": true,
+		"baseUrl": "./",
+		"paths": {
+			"ltCommon/*": ["./tmp/aot-ng4-common/*"]
+		},
+		"suppressImplicitAnyIndexErrors": true
+	},
+	"exclude": [
+		"node_modules",
+		"**/*-jit.ts"
+	]
+
+	// Added for AOT
+	,
+	"files": [
+		"app/app.module.ts",
+		"sum-main-aot.ts"
+	],
+	"angularCompilerOptions": {
+		"genDir": "tmp/aot",
+		"skipMetadataEmit": true
+	}
+}

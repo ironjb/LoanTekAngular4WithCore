@@ -1,0 +1,219 @@
+﻿<ng-template #RetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<form class="pb-5" *ngIf="clientBranchInfo else RetrievingData">
+	<div class="row form-group">
+		<div class="col-sm-12">
+			<button class="btn btn-success" type="button" (click)="showAddBranch($event)" [class.btn-loading]="disableShowAddBranchModalBtn" [disabled]="disableShowAddBranchModalBtn"><i class="fa fa-plus"></i> Add Branch</button>
+		</div>
+	</div>
+	<div class="row" *ngFor="let branch of clientBranchInfo.Branches; let bI=index;">
+		<div class="col-sm-12">
+			<div class="card panel-default">
+				<div class="card-header d-flex flex-row collapsed" data-toggle="collapse" [attr.data-target]="'.branch-wrapper-' + bI">
+					<span class="p-1 mr-auto"><span class="collapse-chevron mr-2"></span><strong>Branch:</strong> {{branch.BranchName}}</span>
+					<button class="btn btn-sm btn-danger" type="button" (click)="confirmDeleteBranch($event, branch)"><i class="fa fa-trash"></i> Delete</button>
+				</div>
+				<div class="collapse branch-wrapper-{{bI}}">
+					<div class="card-body">
+						<div class="ml-4">
+							<strong>Branch Managers</strong>
+							<div class="table-responsive">
+								<table class="table table-sm table-condensed table-bordered table-striped table-hover">
+									<thead class="bg-primary text-white">
+										<tr>
+											<th>Manager</th>
+											<th>Email</th>
+											<th class="w-0 text-right">
+												<button id="AddBranchManagers_{{branch.BranchId}}" class="btn btn-xs btn-success" type="button" (click)="showAddBranchUser($event, 'AddBranchManagers_' + branch.BranchId, branch, true)"><i class="fa fa-plus"></i> Add Manager</button>
+											</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="branch.BranchManagers.length > 0">
+										<tr *ngFor="let branchManager of branch.BranchManagers">
+											<td>{{branchManager.FullName}}</td>
+											<td>{{branchManager.Email}}</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-xs btn-danger" (click)="confirmRemoveUser($event, branch, branchManager, true)"><i class="fa fa-trash"></i> Delete</button>
+											</td>
+										</tr>
+									</tbody>
+									<tbody *ngIf="!(branch.BranchManagers.length > 0)">
+										<tr>
+											<td colspan="3">No Branch Managers</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="ml-4">
+							<strong>Branch Users</strong>
+							<div class="table-responsive">
+								<table class="table table-sm table-condensed table-bordered table-striped table-hover">
+									<thead class="bg-dark text-white">
+										<tr>
+											<th>User</th>
+											<th>Email</th>
+											<th class="w-0 text-right">
+												<button id="AddBranchUsers_{{branch.BranchId}}" class="btn btn-xs btn-success" type="button" (click)="showAddBranchUser($event, 'AddBranchUsers_' + branch.BranchId, branch, false)"><i class="fa fa-plus"></i> Add User</button>
+											</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="branch.BranchUsers.length > 0">
+										<tr *ngFor="let branchUser of branch.BranchUsers">
+											<td>{{branchUser.FullName}}</td>
+											<td>{{branchUser.email}}</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-xs btn-danger" (click)="confirmRemoveUser($event, branch, branchUser, false)"><i class="fa fa-trash"></i> Delete</button>
+											</td>
+										</tr>
+									</tbody>
+									<tbody *ngIf="!(branch.BranchUsers.length > 0)">
+										<tr>
+											<td colspan="3">No Branch Users</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<simple-modal #addBranchModal modalTitle="Add Branch" elementId="addBranchModal" modalSizeClass="modal-lg" titleBgClass="bg-success" titleColorClass="text-white">
+	<ng-template #LoadingCurrentUsersList>
+		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
+	</ng-template>
+	<div *ngIf="newBranchAssets else LoadingCurrentUsersList">
+		<form #AddBranchForm [formGroup]="addBranchFG" (ngSubmit)="addBranch($event)" novalidate="novalidate">
+			<div class="alert alert-danger" *ngIf="showAddBranchError && addBranchFG.invalid">
+				Error: {{addBranchErrorText}}
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="NewBranchName" class="col-form-label h6">Branch Name*</label>
+					<input type="text" id="NewBranchName" name="NewBranchName" class="form-control" [class.is-invalid]="isInvalidDirtyTouched(branchName)" formControlName="branchName" placeholder="Enter a Branch Name" />
+					<div class="invalid-feedback">*Branch Name is required</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-lg-4">
+					<label class="col-form-label h6 d-block">Branch Managers</label>
+					<div class="btn-group pb-2">
+						<button class="btn btn-info btn-xs" type="button" (click)="checkAllGroup(branchManagers, 'isChecked', true)">Check All</button>
+						<button class="btn btn-outline-secondary btn-xs" type="button" (click)="checkAllGroup(branchManagers, 'isChecked', false)">Uncheck All</button>
+					</div>
+					<div class="border p-2 checkbox-group-height" [ngClass]="isInvalidDirtyTouched(branchManagers) ? 'border-danger' : 'border-secondary'" formArrayName="branchManagers">
+						<div *ngFor="let bm of branchManagers.controls; let bmI=index;" class="form-check checkbox-fa" [formGroupName]="bmI">
+							<label [attr.for]="'bManager' + bmI" class="form-check-label">
+								<input [attr.id]="'bManager' + bmI" name="{{'bManager' + bmI}}" type="checkbox" class="form-check-input" formControlName="isChecked" /><i class="checkbox-i"></i> {{bm.get('name').value}}
+							</label>
+						</div>
+					</div>
+					<div class="text-danger small" *ngIf="isInvalidDirtyTouched(branchManagers)">*Please check at least one</div>
+				</div>
+				<div class="form-group col-lg-4">
+					<label class="col-form-label h6 d-block">Branch Users</label>
+					<div class="btn-group pb-2">
+						<button class="btn btn-info btn-xs" type="button" (click)="checkAllGroup(branchUsers, 'isChecked', true)">Check All</button>
+						<button class="btn btn-outline-secondary btn-xs" type="button" (click)="checkAllGroup(branchUsers, 'isChecked', false)">Uncheck All</button>
+					</div>
+					<div class="border p-2 checkbox-group-height" [ngClass]="isInvalidDirtyTouched(branchUsers) ? 'border-danger' : 'border-secondary'" formArrayName="branchUsers">
+						<div *ngFor="let bu of branchUsers.controls; let buI=index;" class="form-check checkbox-fa" [formGroupName]="buI">
+							<label [attr.for]="'bUser' + buI" class="form-check-label">
+								<input type="checkbox" class="form-check-input" formControlName="isChecked" [attr.id]="'bUser' + buI" name="{{'bUser' + buI}}" /><i class="checkbox-i"></i> {{bu.get('name').value}}
+							</label>
+						</div>
+					</div>
+					<div class="text-danger small" *ngIf="isInvalidDirtyTouched(branchUsers)">*Please check at least one</div>
+				</div>
+				<div class="form-group col-lg-4">
+					<label class="col-form-label h6 d-block">Pricing Rules</label>
+					<div class="btn-group pb-2">
+						<button class="btn btn-info btn-xs" type="button" (click)="checkAllGroup(pricingRules, 'isChecked', true)">Check All</button>
+						<button class="btn btn-outline-secondary btn-xs" type="button" (click)="checkAllGroup(pricingRules, 'isChecked', false)">Uncheck All</button>
+					</div>
+					<div class="border p-2 checkbox-group-height" [ngClass]="isInvalidDirtyTouched(pricingRules) ? 'border-danger' : 'border-secondary'" formArrayName="pricingRules">
+						<div *ngFor="let pr of pricingRules.controls; let prI=index;" class="form-check checkbox-fa" [formGroupName]="prI">
+							<label [attr.for]="'bPricingRule' + prI" class="form-check-label">
+								<input type="checkbox" class="form-check-input" formControlName="isChecked" [attr.id]="'bPricingRule' + prI" name="{{'bPricingRule' + prI}}" /><i class="checkbox-i"></i> {{pr.get('name').value}}
+							</label>
+						</div>
+					</div>
+					<div class="text-danger small" *ngIf="isInvalidDirtyTouched(pricingRules)">*Please check at least one</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col text-right">
+					<button class="btn btn-success" type="submit" [class.btn-loading]="disableAddBranchBtn" [disabled]="disableAddBranchBtn"><i class="fa fa-plus"></i> Add Branch</button>
+					<button class="btn btn-secondary" type="button" (click)="addBranchModal.closeModal()">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</simple-modal>
+
+
+<simple-modal #addUsersModal modalTitle="Add {{isAddManager ? 'Managers' : 'Users'}}" elementId="addUsersModal" modalSizeClass="modal-sm" titleBgClass="bg-success" titleColorClass="text-white">
+	<ng-template #LoadingAddUsersList>
+		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+	</ng-template>
+	<div *ngIf="currentBranch else LoadingAddUsersList">
+		<form #AddUsersForm [formGroup]="addUsersFG" (ngSubmit)="addBranchUsers($event, currentBranch)" novalidate="novalidate">
+			<div class="alert alert-danger" *ngIf="showAddUsersError && addUsersFG.invalid">
+				Error: {{addUsersErrorText}}
+			</div>
+			<div class="form-row">
+				<div class="form-group col">
+					<p><strong>Branch:</strong> {{currentBranch.BranchName}}</p>
+					<p>Select from the list of {{isAddManager ? 'Managers' : 'Users'}}</p>
+					<div class="btn-group pb-2">
+						<button class="btn btn-info btn-xs" type="button" (click)="checkAllGroup(auBranchUsers, 'isChecked', true)">Check All</button>
+						<button class="btn btn-outline-secondary btn-xs" type="button" (click)="checkAllGroup(auBranchUsers, 'isChecked', false)">Uncheck All</button>
+					</div>
+					<div class="border p-2 checkbox-group-height" [ngClass]="isInvalidDirtyTouched(auBranchUsers) ? 'border-danger' : 'border-secondary'" formArrayName="auBranchUsers">
+						<div *ngFor="let user of auBranchUsers.controls; let auI=index;" class="form-check checkbox-fa" [formGroupName]="auI">
+							<label [attr.for]="'auUser' + auI" class="form-check-label">
+								<input type="checkbox" class="form-check-input" formControlName="isChecked" [attr.id]="'auUser' + auI" [attr.name]="'auUser' + auI" /><i class="checkbox-i"></i> {{user.get('name').value}}
+							</label>
+						</div>
+					</div>
+					<div class="text-danger small" *ngIf="isInvalidDirtyTouched(auBranchUsers)">*Please check at least one</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col text-right">
+					<button class="btn btn-success" type="submit" [class.btn-loading]="disableAddUsersBtn" [disabled]="disableAddUsersBtn"><i class="fa fa-plus"></i> Add {{isAddManager ? 'Managers' : 'Users'}}</button>
+					<button class="btn btn-secondary" type="button" (click)="addUsersModal.closeModal()">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</simple-modal>
+
+
+<delete-branch #deleteBranchModalComp [clientBranchInfo]="clientBranchInfo" [currentBranch]="currentBranch"></delete-branch>
+
+
+<simple-modal #removeBranchUserModal modalTitle="Remove from Branch?" elementId="removeUserModal" modalSizeClass="modal-sm" titleBgClass="bg-danger" titleColorClass="text-white">
+	<ng-template #LoadingCurrentBranchUser>
+		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+	</ng-template>
+	<div *ngIf="(currentBranchUser && currentBranch) else LoadingCurrentBranchUser">
+		<form (ngSubmit)="removeUser($event, currentBranchUser, currentBranch)">
+			<p>
+				<strong>{{(currentBranchUser.isManager ? 'Manager': 'User')}}:</strong> {{currentBranchUser.name}}<br />
+				<strong>Branch:</strong> {{currentBranch.BranchName}}
+			</p>
+			<p>Are you sure you want to remove this {{(currentBranchUser.isManager ? 'Manager': 'User')}} from this Branch?</p>
+			<div class="text-right">
+				<button class="btn btn-danger mr-1" type="submit" [class.btn-loading]="disableRemoveUserBtn" [disabled]="disableRemoveUserBtn"><i class="fa fa-trash"></i> Delete</button>
+				<button class="btn btn-secondary" type="button" (click)="removeBranchUserModal.closeModal()">Cancel</button>
+			</div>
+		</form>
+	</div>
+</simple-modal>

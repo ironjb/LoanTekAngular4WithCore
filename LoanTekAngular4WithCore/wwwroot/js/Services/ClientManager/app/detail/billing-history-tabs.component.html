@@ -1,0 +1,21 @@
+<ng-template #BillHistTabsRetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<div class="card" *ngIf="client else BillHistTabsRetrievingData" tab-group="billHistory" [tab-fade]="true">
+	<div class="card-header">
+		<ul class="nav nav-tabs card-header-tabs">
+			<li class="nav-item"><a href="#BillingHistory_CC_{{client.ClientId}}" class="nav-link" tab-group-link="billHistory">Credit Card Payments</a></li>
+			<li class="nav-item"><a href="#BillingHistory_Debits_{{client.ClientId}}" class="nav-link" tab-group-link="billHistory">Account Debits</a></li>
+		</ul>
+	</div>
+	<div class="card-body">
+		<div class="tab-content">
+			<div id="BillingHistory_CC_{{client.ClientId}}" class="tab-pane" tab-group-content="billHistory">
+				<scm-billing-history-list [client]="client" [billingHistoryType]="ccType"></scm-billing-history-list>
+			</div>
+			<div id="BillingHistory_Debits_{{client.ClientId}}" class="tab-pane" tab-group-content="billHistory">
+				<scm-billing-history-list [client]="client" [billingHistoryType]="acType"></scm-billing-history-list>
+			</div>
+		</div>
+	</div>
+</div>

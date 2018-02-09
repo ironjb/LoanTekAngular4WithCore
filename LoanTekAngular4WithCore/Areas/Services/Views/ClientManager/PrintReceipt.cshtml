@@ -1,0 +1,42 @@
+﻿@using Newtonsoft.Json
+@model dynamic
+@{
+	Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Loantek" />
+	<base href="/">
+	<title>Print Receipt</title>
+
+	<link rel="stylesheet" href="//cdn.loantek.com/css/bundle/bootstrap-site.min.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="pb-4">
+			<scm-print-receipt>
+				Loading Scripts...
+			</scm-print-receipt>
+		</div>
+
+		@*<script type="text/javascript">
+			var cmprInfo = @Html.Raw(JsonConvert.SerializeObject(@Model, Global.JsonSettings));
+		</script>*@
+		<environment include="Development">
+			<script type="text/javascript" src="/js/Services/ClientManager/tmp/webpack/pr-vendor-polyfills.js"></script>
+			<script type="text/javascript" src="/js/Services/ClientManager/tmp/webpack/print-receipt.js?v=@DateTime.Now.Ticks"></script>
+		</environment>
+		<environment exclude="Development">
+			<script type="text/javascript" src="/js/lib/core-js/shim.min.js"></script>
+			<script type="text/javascript" src="/js/lib/zonejs/zone.min.js"></script>
+			<script type="text/javascript" src="/js/Services/ClientManager/build/scm-print-receipt-build.js?v=171206-1"></script>
+		</environment>
+	</div>
+</body>
+</html>
+
+

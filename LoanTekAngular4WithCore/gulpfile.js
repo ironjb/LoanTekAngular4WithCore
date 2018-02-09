@@ -127,6 +127,24 @@ var del = require('del');
 		// Bootstrap 4 js
 		gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js'])
 		.pipe(gulp.dest('wwwroot/js/lib/bootstrap4/js'));
+
+		// Toastr
+		gulp.src(['node_modules/toastr/build/toastr.min.css'])
+		.pipe(gulp.dest('wwwroot/css'));
+		gulp.src(['node_modules/toastr/build/toastr.min.js'])
+		.pipe(gulp.dest('wwwroot/js/lib/toastr'));
+
+		// Lodash
+		gulp.src(['node_modules/lodash/core.min.js', 'node_modules/lodash/lodash.min.js'])
+		.pipe(gulp.dest('wwwroot/js/lib/lodash'));
+
+		// core-js
+		gulp.src(['node_modules/core-js/client/shim.min.js'])
+		.pipe(gulp.dest('wwwroot/js/lib/core-js'));
+
+		// zone.js
+		gulp.src(['node_modules/zone.js/dist/zone.min.js'])
+		.pipe(gulp.dest('wwwroot/js/lib/zonejs'));
 	});
 
 	gulp.task('ts:compile', shell.task(['tsc -p ./tsconfig.json']));

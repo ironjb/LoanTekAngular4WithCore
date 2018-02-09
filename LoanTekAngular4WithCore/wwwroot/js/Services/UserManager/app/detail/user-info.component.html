@@ -1,0 +1,200 @@
+<ng-template #UserInfoRetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<form *ngIf="user else UserInfoRetrievingData" [formGroup]="userInfoFG" (ngSubmit)="updateUserInfo()">
+	<div class="row">
+		<div class="col-lg">
+			<h5>Contact Information</h5>
+			<!-- <div class="row form-group">
+				<label for="UserType_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">User Type</label>
+				<div class="col-md-8">
+					<select *ngIf="userTypes" name="UserType_{{user.UserId}}" id="UserType_{{user.UserId}}" class="form-control" formControlName="UserType" [class.is-invalid]="isInvalidDirtyTouched(UserType)">
+						<option *ngFor="let ut of userTypes" [value]="ut.Text">{{ut.Text}}</option>
+					</select>
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div> -->
+			<div class="row form-group">
+				<label for="Title_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Title</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="Title_{{user.UserId}}" placeholder="Title" formControlName="Title" /></div>
+			</div>
+			<div class="row form-group">
+				<label for="FirstName_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Name</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col">
+							<input type="text" class="form-control" id="FirstName_{{user.UserId}}" placeholder="First Name" formControlName="FirstName" [class.is-invalid]="isInvalidDirtyTouched(FirstName)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+						<div class="col">
+							<input type="text" class="form-control" id="LastName_{{user.UserId}}" placeholder="Last Name" formControlName="LastName" [class.is-invalid]="isInvalidDirtyTouched(LastName)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="Address_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Address</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="Address_{{user.UserId}}" placeholder="Address" formControlName="Address" [class.is-invalid]="isInvalidDirtyTouched(Address)" />
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="City_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">City</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="City_{{user.UserId}}" placeholder="City" formControlName="City" [class.is-invalid]="isInvalidDirtyTouched(City)" />
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="State_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">State / Zip</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col-8">
+							<select *ngIf="states" class="form-control" id="State_{{user.UserId}}" formControlName="State" [class.is-invalid]="isInvalidDirtyTouched(State)">
+								<option class="disabled" value="" disabled="disabled">Select State...</option>
+								<option *ngFor="let st of states" [value]="st.abbreviation">{{st.name}}</option>
+							</select>
+							<div class="invalid-feedback">*Required</div>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" id="ZipCode_{{user.UserId}}" placeholder="ZipCode" formControlName="ZipCode" [class.is-invalid]="isInvalidDirtyTouched(ZipCode)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="Phone_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Phone</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col-8">
+							<input type="text" class="form-control" id="Phone_{{user.UserId}}" placeholder="Phone" formControlName="Phone" [class.is-invalid]="isInvalidDirtyTouched(Phone)" />
+							<div class="invalid-feedback">*Required</div>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" id="Ext_{{user.UserId}}" placeholder="Ext" formControlName="Ext" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="CellPhone_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Cell Phone</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="CellPhone_{{user.UserId}}" placeholder="Cell Phone" formControlName="CellPhone" /></div>
+			</div>
+			<div class="row form-group">
+				<label for="HomePhone_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Home Phone</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="HomePhone_{{user.UserId}}" placeholder="Home Phone" formControlName="HomePhone" /></div>
+			</div>
+			<div class="row form-group">
+				<label for="TimeZonePreference_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Time Zone</label>
+				<div class="col-md-8">
+					<select *ngIf="timeZones" name="TimeZonePreference_{{user.UserId}}" id="TimeZonePreference_{{user.UserId}}" class="form-control" formControlName="TimeZonePreference">
+						<option value="">Select Time Zone...</option>
+						<option *ngFor="let tz of timeZones" [value]="tz.Value">{{tz.Text}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="NMLS_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">NMLS#</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="NMLS_{{user.UserId}}" placeholder="NMLS #" formControlName="NMLS" /></div>
+			</div>
+			<div class="row form-group">
+				<label for="WebSite_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Web Site</label>
+				<div class="col-md-8"><input type="text" class="form-control" id="WebSite_{{user.UserId}}" placeholder="Website" formControlName="WebSite" /></div>
+			</div>
+		</div>
+		<div class="col-lg">
+			<h5>Login Information</h5>
+			<div class="row form-group">
+				<label for="UserRole_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">User Role</label>
+				<div class="col-md-8">
+					<div class="form-row" *ngIf="loggedInUserInfo?.IsRole?.ClientAdmin else UserRoleText" [formGroup]="userRoleFG">
+						<div class="col">
+							<select *ngIf="userRoles else UserRoleTextSelect" name="UserRole_{{user.UserId}}" id="UserRole_{{user.UserId}}" class="form-control" formControlName="UserRole">
+								<!-- <option value="">Select User Role...</option> -->
+								<option *ngFor="let ur of userRoles" [value]="ur.Value">{{ur.Text}}</option>
+							</select>
+							<ng-template #UserRoleTextSelect>
+								<select class="form-control">
+									<option value="">{{UserRole.value}}</option>
+								</select>
+								<!-- <div class="form-control-plaintext">{{UserRole.value}}</div> -->
+							</ng-template>
+						</div>
+						<div class="col-auto">
+							<button class="btn btn-outline-secondary" type="button" (click)="updateUserRole()" [class.btn-loading]="isUpdateUserRoleBtnDisabled" [disabled]="isUpdateUserRoleBtnDisabled">Save</button>
+						</div>
+					</div>
+					<ng-template #UserRoleText>
+						<div class="form-control-plaintext">{{user.UserRole}}</div>
+					</ng-template>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="Email_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Email</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control" id="Email_{{user.UserId}}" placeholder="Email" formControlName="Email" [class.is-invalid]="isInvalidDirtyTouched(Email)" />
+					<div class="invalid-feedback">*Required</div>
+				</div>
+			</div>
+			<div class="row form-group" [formGroup]="passwordFG">
+				<label for="Password_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Password</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col">
+							<input type="password" class="form-control" id="Password_{{user.UserId}}" placeholder="Password" formControlName="Password" [class.is-invalid]="isInvalidTouched(Password)" />
+							<div class="invalid-feedback">*Must be at least 6 characters.</div>
+						</div>
+						<div class="col-auto">
+							<button class="btn btn-outline-secondary" type="button" (click)="updatePassword()" [class.btn-loading]="isUpdatePasswordBtnDisabled" [class.cursor-disabled]="!Password.value" [disabled]="isUpdatePasswordBtnDisabled || !Password.value">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="LastEdit_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Last Edit</label>
+				<div class="col-md-8"><div class="form-control-plaintext">{{user.LastEdit | date:'M/d/yyyy h:mm a'}}<span *ngIf="user.LastEditByName"> by {{user.LastEditByName}}</span></div></div>
+			</div>
+			<div class="row form-group">
+				<label for="LastLogin_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Last Login</label>
+				<div class="col-md-8"><div class="form-control-plaintext">{{user.LastLogin | date:'M/d/yyyy h:mm a'}}</div></div>
+			</div>
+			<div class="row form-group">
+				<label for="UserId_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">UserId</label>
+				<div class="col-md-8"><div class="form-control-plaintext">{{user.UserId}}</div></div>
+			</div>
+			<div class="row form-group" *ngIf="loggedInUserInfo?.IsRole?.ClientSalesAdmin">
+				<label for="Active_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Active</label>
+				<div class="col-md-8">
+					<div class="form-check checkbox-fa form-control-plaintext mb-0"><label for="" class="form-check-label"><input type="checkbox" class="form-check-input" id="Active_{{user.UserId}}" formControlName="Active" /><i class="checkbox-i"></i></label></div>
+				</div>
+			</div>
+			<div class="row form-group" [formGroup]="lockOutFG" *ngIf="loggedInUserInfo?.IsRole?.ClientSalesAdmin">
+				<label for="LockedOut_{{user.UserId}}" class="col-md-4 col-form-label text-md-right">Locked Out</label>
+				<div class="col-md-8">
+					<div class="form-row">
+						<div class="col-auto pr-4">
+							<div class="form-check checkbox-fa form-control-plaintext mb-0"><label class="form-check-label"><input type="checkbox" class="form-check-input" id="LockedOut_{{user.UserId}}" formControlName="LockedOut" /><i class="checkbox-i"></i></label></div>
+						</div>
+						<div class="col">
+							<button class="btn btn-outline-secondary" type="button" (click)="unlockUser()" [class.btn-loading]="isUnlockBtnDisabled" [class.cursor-disabled]="!LockedOut.value" [disabled]="isUnlockBtnDisabled || !LockedOut.value">Unlock</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+			<!--
+
+			.row.form-group>label.col-md-4.col-form-label.text-md-right[for=Address_{{user.UserId}}]{Address}+.col-md-8>input.form-control[type=text id=Address_{{user.UserId}} placeholder="Address" formControlName=Address [class.is-invalid]="isInvalidDirtyTouched(Address)"]
+
+			.row.form-group>label.col-md-4.col-form-label.text-md-right[for=NationalLender_{{user.UserId}}]{NationalLender}+.col-md-8>.form-check.checkbox-fa.form-control-plaintext.mb-0>label.form-check-label>input.form-check-input[type=checkbox id=NationalLender_{{user.UserId}} formControlName=NationalLender]+i.checkbox-i
+
+			-->
+	<div class="row">
+		<div class="col text-right"><button class="btn btn-success" type="submit" [class.btn-loading]="isUpdateBtnDisabled" [disabled]="isUpdateBtnDisabled">Update User Info</button></div>
+	</div>
+	<!-- {{user | json}} -->
+</form>

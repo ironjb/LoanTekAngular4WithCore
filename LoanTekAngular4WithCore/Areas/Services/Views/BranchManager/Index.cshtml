@@ -1,0 +1,36 @@
+﻿@{
+	ViewBag.Title = "Branch Manager";
+}
+<div class="container">
+	<div class="lt-breadcrumb">
+		<ul id="LTClientSiteBreadcrumb" class="breadcrumb">
+			<li class="breadcrumb-item"><i class="fa fa-home"></i><a href="/Services">Services Home</a></li>
+			<li class="breadcrumb-item">Branch Manager</li>
+		</ul>
+	</div>
+</div>
+<div class="container">
+	<my-app>
+		<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading Scripts...
+	</my-app>
+</div>
+@*<environment include="Development">
+	<strong>HostingEnvironment.EnvironmentName is Development</strong><br />
+</environment>
+<environment exclude="Development">
+	<strong>HostingEnvironment.EnvironmentName is Staging or Production</strong><br />
+</environment>*@
+@section head {
+	<base href="/">
+}
+@section scripts {
+	<environment include="Development">
+		<script type="text/javascript" src="/js/Services/BranchManager/tmp/webpack/vendor-polyfills.js"></script>
+		<script type="text/javascript" src="/js/Services/BranchManager/tmp/webpack/app.js"></script>
+	</environment>
+	<environment exclude="Development">
+		<script type="text/javascript" src="/js/lib/core-js/shim.min.js"></script>
+		<script type="text/javascript" src="/js/lib/zonejs/zone.min.js"></script>
+		<script type="text/javascript" src="/js/Services/BranchManager/build/build.js"></script>
+	</environment>
+}

@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/lt2/kendo-theme-bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/toastr.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/lt2/site.css">
+	<link rel="stylesheet" type="text/css" href="/css/toastr.min.css">
 
 	@RenderSection("head", required: false)
 	@RenderSection("styles", required: false)
@@ -38,7 +39,7 @@
 	</div>
 	@RenderSection("PageContentHeader", required: false)
 	<div class="content-wrapper">
-		<div id="MainRenderBody" class="container content">
+		<div id="MainRenderBody" class="containerZ content">
 			@RenderBody()
 		</div>
 	</div>
@@ -63,9 +64,8 @@
 	<script type="text/javascript" src="/js/lib/lodash/lodash.custom.js"></script>
 	<script type="text/javascript" src="/js/common/helpers.js"></script>
 	<script type="text/javascript" src="/js/site-scripts.js"></script>
-
-
-
+	<script type="text/javascript" src="/js/lib/toastr/toastr.min.js"></script>
+	<script type="text/javascript" src="/js/lib/lodash/lodash.min.js"></script>
 
 	@RenderSection("scripts", required: false)
 </body>

@@ -1,0 +1,52 @@
+<ng-template #BillHistoryRetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<div class="loading-section-wrapper" *ngIf="billHistoryInfo else BillHistoryRetrievingData">
+	<div class="loading-section" *ngIf="isGettingList"><i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw text-white"></i></div>
+
+	<div class="table-responsive">
+		<table class="table table-hover table-sm small">
+			<thead>
+				<tr class="bg-info text-light">
+					<th class="text-nowrap">&nbsp;</th>
+					<th class="text-nowrap min-width-200" (click)="changeSort('PaymentComments')">Notes <i class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}" *ngIf="sortBy === 'PaymentComments'"></i></th>
+					<th class="text-nowrap" (click)="changeSort('PaymentType')">Payment Type <i class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}" *ngIf="sortBy === 'PaymentType'"></i></th>
+					<th class="text-nowrap" (click)="changeSort('PaymentStatus')">Payment Status <i class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}" *ngIf="sortBy === 'PaymentStatus'"></i></th>
+					<th class="text-nowrap text-center" (click)="changeSort('PaymentDate')">Payment Date <i class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}" *ngIf="sortBy === 'PaymentDate'"></i></th>
+					<th class="text-nowrap text-right" (click)="changeSort('PaymentAmount')">Payment Amount <i class="ml-1 fa {{!reverseSort ? 'fa-sort-asc' : 'fa-sort-desc'}}" *ngIf="sortBy === 'PaymentAmount'"></i></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr [formGroup]="billHistFG">
+					<td class="text-nowrap">
+						<button class="btn btn-sm btn-outline-secondary" type="button" (click)="clearFilter()" data-toggle="tooltip" data-trigger="hover" title="Clear Filter"><i class="fa fa-ban"></i></button>
+					</td>
+					<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="paymentCommentsFilter" placeholder="Notes" /></td>
+					<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="paymentTypeFilter" placeholder="Payment Type" /></td>
+					<td><input type="text" class="form-control form-control-sm" (keyup)="filterResultsDebounce()" formControlName="paymentStatusFilter" placeholder="Payment Status" /></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr *ngFor="let billHistRow of billHistoryInfo.billHistoryList">
+					<td class="text-nowrap align-middle">
+						<button class="btn btn-sm btn-light" type="button" data-toggle="tooltip" data-trigger="hover" title="Email Receipt" (click)="emailReceipt(billHistRow)" [class.btn-loading]="isEmailReceiptBtnDisabled[billHistRow.InvoiceId]" [disabled]="isEmailReceiptBtnDisabled[billHistRow.InvoiceId]"><i class="fa fa-envelope-o"></i></button>
+						<button class="btn btn-sm btn-light" type="button" data-toggle="tooltip" data-trigger="hover" title="Print Receipt" (click)="printReceipt(billHistRow)" [class.btn-loading]="isPrintReceiptBtnDisabled[billHistRow.InvoiceId]" [disabled]="isPrintReceiptBtnDisabled[billHistRow.InvoiceId]"><i class="fa fa-print"></i></button>
+					</td>
+					<td>{{billHistRow.PaymentComments}}</td>
+					<td>{{billHistRow.PaymentType}}</td>
+					<td>{{billHistRow.PaymentStatus}}</td>
+					<td class="text-center">
+						<span class="text-nowrap">{{billHistRow.PaymentDate | date:'shortDate'}}</span>
+						<span class="text-nowrap">{{billHistRow.PaymentDate | date:'shortTime'}}</span>
+					</td>
+					<td class="text-right">{{billHistRow.PaymentAmount || 0 | currency:'USD':true:'1.2-2'}}</td>
+				</tr>
+				<tr *ngIf="billHistoryInfo?.billHistoryList?.length === 0">
+					<td colspan="6" class="text-center">No Results</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<paging elementid="CMPaging_BillHistory_{{client.ClientId}}_" [page]="billHistoryInfo.currentPage" [pagesize]="billHistoryInfo.pageSize" [totalcount]="billHistoryInfo.billHistoryCount" (pagechange)="pageChange($event)" displaytext="Page #{page} of #{lastPage}"></paging>
+</div>

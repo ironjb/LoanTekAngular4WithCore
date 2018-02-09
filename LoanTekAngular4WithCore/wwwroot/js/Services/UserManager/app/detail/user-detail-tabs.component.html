@@ -1,0 +1,36 @@
+<ng-template #UserDetailRetrievingData>
+	<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Retrieving Data...
+</ng-template>
+<div *ngIf="user else UserDetailRetrievingData">
+	<button  *ngIf="loggedInUserInfo?.IsRole?.ClientSalesAdmin"class="btn btn-sm btn-link mb-1" type="button" (click)="closeDetail()"><i class="fa fa-chevron-left"></i> Back to List</button>
+	<div class="card" tab-group="userDetail" [tab-fade]="true">
+		<div class="card-header">
+			<ul class="nav nav-tabs card-header-tabs">
+				<li class="nav-item"><a href="#UserDetailTab_Info_{{user.UserId}}" class="nav-link" tab-group-link="userDetail">User Info</a></li>
+				<li class="nav-item"><a href="#UserDetailTab_Notes_{{user.UserId}}" class="nav-link" tab-group-link="userDetail">Notes</a></li>
+				<li class="nav-item"><a href="#UserDetailTab_DeliverOpts_{{user.UserId}}" class="nav-link" tab-group-link="userDetail">Lead Delivery Options</a></li>
+				<li class="nav-item"><a href="#UserDetailTab_Connect_{{user.UserId}}" class="nav-link" tab-group-link="userDetail">Connect</a></li>
+			</ul>
+		</div>
+		<div class="card-body">
+			<div class="tab-content">
+				<div id="UserDetailTab_Info_{{user.UserId}}" class="tab-pane" tab-group-content="userDetail">
+					<sum-user-info [user]="user" [loggedInUserInfo]="loggedInUserInfo" (updateUser)="updateUserInfo($event)"></sum-user-info>
+				</div>
+				<div id="UserDetailTab_Notes_{{user.UserId}}" class="tab-pane" tab-group-content="userDetail">
+					<sum-user-notes [user]="user"></sum-user-notes>
+				</div>
+				<div id="UserDetailTab_DeliverOpts_{{user.UserId}}" class="tab-pane" tab-group-content="userDetail">
+					<sum-lead-delivery-options [user]="user"></sum-lead-delivery-options>
+					<!-- <scm-creditcards [client]="client"></scm-creditcards> -->
+				</div>
+				<div id="UserDetailTab_Connect_{{user.UserId}}" class="tab-pane" tab-group-content="userDetail">
+					connect
+				</div>
+			</div>
+		</div>
+		<div *ngIf="loggedInUserInfo?.IsRole?.ClientSalesAdmin" class="card-footer">
+			<button class="btn btn-secondary" type="button" (click)="closeDetail()"><i class="fa fa-chevron-left"></i> Back to List</button>
+		</div>
+	</div>
+</div>
