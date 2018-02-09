@@ -10,7 +10,7 @@
 	},
 	"exclude": [
 		"node_modules",
-		"wwwroot",
+		//"wwwroot",
 		"bower_components",
 		"metronic_assets",
 		"bin",
@@ -22,7 +22,7 @@
 		"App_Data",
 		"App_Start",
 		// The following folders should have their own tsconfig.json file
-		"Areas/Services",
-		"Scripts/ng4"
+		"wwwroot/js/Services",
+		"wwwroot/js/ng4"
 	]
 }

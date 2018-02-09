@@ -119,6 +119,14 @@ var del = require('del');
 		// // Copy clipboard.js
 		// gulp.src(['bower_components/clipboard/dist/clipboard.min.js'])
 		// .pipe(gulp.dest('wwwroot/js/lib/clipboard'));
+
+		// Popper
+		gulp.src(['node_modules/popper.js/dist/umd/popper.min.js'])
+		.pipe(gulp.dest('wwwroot/js/lib/popperjs/umd'));
+
+		// Bootstrap 4 js
+		gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js'])
+		.pipe(gulp.dest('wwwroot/js/lib/bootstrap4/js'));
 	});
 
 	gulp.task('ts:compile', shell.task(['tsc -p ./tsconfig.json']));

@@ -265,6 +265,7 @@ html.html-footer-sticky {
 
 					&:hover, &:focus {
 						background-color: $dropdown-inverse-link-hover-bg;
+						background-image: none;
 					}
 				}
 			}

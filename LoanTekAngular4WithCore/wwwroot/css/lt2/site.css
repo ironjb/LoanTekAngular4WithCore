@@ -418,7 +418,8 @@ html.html-footer-sticky {
   .dropdown.dropdown-menu-inverse.dropdown-menu > li > a, .dropdown.dropdown-menu-inverse .dropdown-menu > li > a, .dropdown .dropdown-menu-inverse.dropdown-menu > li > a, .dropdown .dropdown-menu-inverse .dropdown-menu > li > a {
     color: #e9ecef; }
     .dropdown.dropdown-menu-inverse.dropdown-menu > li > a:hover, .dropdown.dropdown-menu-inverse.dropdown-menu > li > a:focus, .dropdown.dropdown-menu-inverse .dropdown-menu > li > a:hover, .dropdown.dropdown-menu-inverse .dropdown-menu > li > a:focus, .dropdown .dropdown-menu-inverse.dropdown-menu > li > a:hover, .dropdown .dropdown-menu-inverse.dropdown-menu > li > a:focus, .dropdown .dropdown-menu-inverse .dropdown-menu > li > a:hover, .dropdown .dropdown-menu-inverse .dropdown-menu > li > a:focus {
-      background-color: #1E376D; }
+      background-color: #1E376D;
+      background-image: none; }
 
 .dropdown-fade.dropdown > .dropdown-menu, .dropdown-fade .dropdown > .dropdown-menu {
   display: block;

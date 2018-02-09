@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
-<html>
-<head class="html-footer-sticky">
+<html class="html-footer-sticky">
+<head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - LoanTek</title>
@@ -25,6 +25,7 @@
 				<div class="page-logo mr-auto"><a href="/"><img src="/images/logo-loantek.com-500px.png" alt="LoanTek" class="logo-lt" /></a></div>
 				<div class="pull-rightZ d-flex flex-row">
 					@*@Html.Partial("_LoginPartial", new ViewDataDictionary { { "user", user } })*@
+					@Html.Partial("_LoginPartial")
 					<button type="button" class="navbar-toggler collapsedZZ" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false" aria-controls="navbar">
 						<span class="sr-only">Toggle navigation</span>
 						<i class="icon-menu"></i>
@@ -33,6 +34,7 @@
 			</div>
 		</div>
 		@*@Html.Partial("~/Views/Shared/_PageNavbar.cshtml", new ViewDataDictionary { { "user", user } })*@
+		@Html.Partial("_PageNavbar")
 	</div>
 	@RenderSection("PageContentHeader", required: false)
 	<div class="content-wrapper">
@@ -55,6 +57,16 @@
 		</div>
 	</div>
 	@*@Scripts.Render("~/bundles/site-scripts")*@
+	<script type="text/javascript" src="/js/lib/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/lib/popperjs/umd/popper.min.js"></script>
+	<script type="text/javascript" src="/js/lib/bootstrap4/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/lib/lodash/lodash.custom.js"></script>
+	<script type="text/javascript" src="/js/common/helpers.js"></script>
+	<script type="text/javascript" src="/js/site-scripts.js"></script>
+
+
+
+
 	@RenderSection("scripts", required: false)
 </body>
 </html>
