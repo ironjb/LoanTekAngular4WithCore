@@ -5,6 +5,13 @@ export interface IBranch {
 	BranchUsers: IBranchUser[];
 }
 
+export interface IFakeBranch {
+	BranchId: number;
+	BranchName: string;
+	BranchManagers: number[];
+	BranchUsers: number[];
+}
+
 export interface IBranchManager {
 	UserId: number;
 	FullName: string;

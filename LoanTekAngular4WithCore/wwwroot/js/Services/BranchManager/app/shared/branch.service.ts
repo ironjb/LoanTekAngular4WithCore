@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { IBranch, IBranchManager, IBranchUser, IClientBranchesInfo, IActiveUser, INewBranchAssets, IAddBranchUsersModel, ISaveBranchModel } from './branch.model';
+import { IBranch, IFakeBranch, IBranchManager, IBranchUser, IClientBranchesInfo, IActiveUser, INewBranchAssets, IAddBranchUsersModel, ISaveBranchModel } from './branch.model';
 
 @Injectable()
 export class BranchService {
@@ -12,22 +12,30 @@ export class BranchService {
 	_fakeManagers: IBranchManager[];
 
 	constructor(private http: Http) {
-		this._fakeBranches = this.getFakeBranches.map(b => {
-			return {
-				BranchId: b.BranchId
-				, BranchName: b.BranchName
-				, BranchManagers: this.fakeBranchManagers.filter(m => b.BranchManagers.indexOf(m.UserId) !== -1)
-				, BranchUsers: this.fakeBranchUsers.filter(m => b.BranchUsers.indexOf(m.userid) !== -1)
-			};
-		});
+		this._fakeBranches = this.convertFakeBranchsToBranchs(this.getFakeBranches);
 		this._fakeUsers = this.getFakeUsers;
 		this._fakeManagers = this.getFakeManagers;
 	}
 
-	get getFakeUsers() { return this.fakeBranchUsers.slice(); }
-	get getFakeManagers() { return this.fakeBranchManagers.slice(); }
-	get getFakeBranches() { return this.fakeBranches.slice(); }
+	get getFakeUsers(): IBranchUser[] { return this.fakeBranchUsers.slice(); }
+	get getFakeManagers(): IBranchManager[] { return this.fakeBranchManagers.slice(); }
+	get getFakeBranches(): IFakeBranch[] { return this.fakeBranches.slice(); }
 	get getFakePricingRules() { return this.fakePricingRules.slice(); }
+
+	convertFakeBranchsToBranchs(fakeBranches: IFakeBranch[]): IBranch[] {
+		return fakeBranches.map(b => {
+			return this.convertFakeBranchToBranch(b);
+		});
+	}
+
+	convertFakeBranchToBranch(fakeBranch: IFakeBranch): IBranch {
+		return {
+			BranchId: fakeBranch.BranchId
+			, BranchName: fakeBranch.BranchName
+			, BranchManagers: this.fakeBranchManagers.filter(m => fakeBranch.BranchManagers.indexOf(m.UserId) !== -1)
+			, BranchUsers: this.fakeBranchUsers.filter(m => fakeBranch.BranchUsers.indexOf(m.userid) !== -1)
+		};
+	}
 
 	getAllClientBranches(): Promise<IClientBranchesInfo> {
 		// return this.http.get('/Services/BranchManager/GetAllClientBranches').toPromise().then((response: Response) => {
@@ -88,26 +96,73 @@ export class BranchService {
 	}
 
 	saveBranch(branchModel: ISaveBranchModel): Promise<boolean> {
-		let headers = new Headers({ 'Content-Type': 'application/json' });
-		let options = new RequestOptions({ headers: headers });
-		return this.http.post('/Services/BranchManager/Save', branchModel, options).toPromise().then((response: Response) => {
-			return response.json() as boolean;
+		// let headers = new Headers({ 'Content-Type': 'application/json' });
+		// let options = new RequestOptions({ headers: headers });
+		// return this.http.post('/Services/BranchManager/Save', branchModel, options).toPromise().then((response: Response) => {
+		// 	return response.json() as boolean;
+		// });
+		return new Promise<boolean>(resolve => {
+			var branchIdList = this._fakeBranches.map(fb => fb.BranchId);
+			var maxBranchId = branchIdList.reduce((a,b) => { return Math.max(a,b); });
+			var fakeBranch: IFakeBranch = {
+				BranchId: ++maxBranchId
+				, BranchName: branchModel.BranchName
+				, BranchManagers: branchModel.ManagerUserIds
+				, BranchUsers: branchModel.UserIds
+			};
+			var newBranch: IBranch = this.convertFakeBranchToBranch(fakeBranch);
+			this._fakeBranches.push(newBranch);
+			setTimeout(() => {
+				resolve(true);
+			}, 100);
 		});
 	}
 
 	addUsers(addUsersModel: IAddBranchUsersModel, isManager: boolean): Promise<boolean> {
-		let headers = new Headers({ 'Content-Type': 'application/json' });
-		let options = new RequestOptions({ headers: headers });
-		let addUsersMethod: string = isManager ? 'AddManagers' : 'AddUsers';
-		let addUsersUrl = `/Services/BranchManager/${addUsersMethod}`;
-		return this.http.post(addUsersUrl, addUsersModel, options).toPromise().then((response: Response) => {
-			return response.json() as boolean;
+		// let headers = new Headers({ 'Content-Type': 'application/json' });
+		// let options = new RequestOptions({ headers: headers });
+		// let addUsersMethod: string = isManager ? 'AddManagers' : 'AddUsers';
+		// let addUsersUrl = `/Services/BranchManager/${addUsersMethod}`;
+		// return this.http.post(addUsersUrl, addUsersModel, options).toPromise().then((response: Response) => {
+		// 	return response.json() as boolean;
+		// });
+		return new Promise<boolean>(resolve => {
+			var resolved = false;
+			var branch = this._fakeBranches.filter(b => b.BranchId === addUsersModel.BranchId)[0];
+			var mgrList = this.getFakeManagers;
+			var userList = this.getFakeUsers;
+			if (branch) {
+				addUsersModel.UserIds.forEach(uId => {
+					if (isManager) {
+						var mgr: IBranchManager = mgrList.filter(bm => bm.UserId === uId)[0];
+						if (mgr) {
+							branch.BranchManagers.push(mgr);
+							resolved = true;
+						}
+					} else {
+						var usr: IBranchUser = userList.filter(bu => bu.userid === uId)[0];
+						if (usr) {
+							branch.BranchUsers.push(usr);
+							resolved = true;
+						}
+					}
+				});
+			}
+			setTimeout(() => {
+				resolve(resolved);
+			}, 100);
 		});
 	}
 
 	deleteBranch(clientId: number, branchId: number): Promise<boolean> {
-		return this.http.delete(`/Services/BranchManager/DeleteBranch?clientId=${clientId}&branchId=${branchId}`).toPromise().then((response: Response) => {
-			return response.json() as boolean;
+		// return this.http.delete(`/Services/BranchManager/DeleteBranch?clientId=${clientId}&branchId=${branchId}`).toPromise().then((response: Response) => {
+		// 	return response.json() as boolean;
+		// });
+		return new Promise<boolean>(resolve => {
+			this._fakeBranches.filter(b => b.BranchId === branchId).shift();
+			setTimeout(() => {
+				resolve(true);
+			}, 100);
 		});
 	}
 
@@ -123,7 +178,7 @@ export class BranchService {
 	private fakeBranchUsers: IBranchUser[] = this.fakeBranchManagers.map(u => {
 		return { userid: u.UserId, FullName: u.FullName, email: u.Email };
 	});
-	private fakeBranches = [{ "BranchId": 1, "BranchName": "Firewax", "BranchUsers": [2, 3, 4], "BranchManagers": [2] }, { "BranchId": 2, "BranchName": "Slambda", "BranchUsers": [11], "BranchManagers": [11] }, { "BranchId": 3, "BranchName": "Anixang", "BranchUsers": [5, 6, 7], "BranchManagers": [5] }];
+	private fakeBranches: IFakeBranch[] = [{ "BranchId": 1, "BranchName": "Firewax", "BranchUsers": [2, 3, 4], "BranchManagers": [2] }, { "BranchId": 2, "BranchName": "Slambda", "BranchUsers": [11], "BranchManagers": [11] }, { "BranchId": 3, "BranchName": "Anixang", "BranchUsers": [5, 6, 7], "BranchManagers": [5] }];
 	private fakePricingRules = [{ RuleId: 1, RuleDescription: 'Pricing Rule 1' }, { RuleId: 2, RuleDescription: 'Pricing Rule 2' }, { RuleId: 3, RuleDescription: 'Pricing Rule 3' }, { RuleId: 4, RuleDescription: 'Pricing Rule 4' }];
 }
 
