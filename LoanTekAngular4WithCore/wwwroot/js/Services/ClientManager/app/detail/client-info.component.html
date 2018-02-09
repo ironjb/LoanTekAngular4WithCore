@@ -3,14 +3,9 @@
 </ng-template>
 <form *ngIf="client else RetrievingData" [formGroup]="scmClientInfoFG" (ngSubmit)="updateClientInfo()">
 	<div *ngIf="loggedInUserInfo && loggedInUserInfo?.IsRole?.LoanTekAdmin">
-		<!-- <h4>Client Info</h4> -->
 		<div class="row">
 			<label for="SalesRep_{{client.ClientId}}" class="col-lg-4 col-form-label text-lg-right">Sales Rep</label>
 			<div class="col-lg-4 form-group">
-				<!-- <select name="SalesRep_{{client.ClientId}}" id="SalesRep_{{client.ClientId}}" class="form-control" formControlName="SalesRep" *ngIf="reps else SalesRepName">
-					<option value="">Unknown</option>
-					<option *ngFor="let rep of reps" [value]="rep.UserId">{{rep.User}}</option>
-				</select> -->
 				<kendo-combobox id="SalesRep_{{client.ClientId}}" class="form-control" formControlName="SalesRep" *ngIf="reps else SalesRepName" [data]="reps" [textField]="'User'" [valueField]="'UserId'" [valuePrimitive]="true" [placeholder]="'Unknown'"></kendo-combobox>
 				<ng-template #SalesRepName>
 					<select class="form-control">
@@ -25,10 +20,6 @@
 		<div class="row">
 			<label for="CustomerServiceRep_{{client.ClientId}}" class="col-lg-4 col-form-label text-lg-right">Customer Service Rep</label>
 			<div class="col-lg-4 form-group">
-				<!-- <select name="CustomerServiceRep_{{client.ClientId}}" id="CustomerServiceRep_{{client.ClientId}}" class="form-control" formControlName="CustomerServiceRep" *ngIf="reps else CustomerServiceRepName">
-					<option value="">Unknown</option>
-					<option *ngFor="let rep of reps" [value]="rep.UserId">{{rep.User}}</option>
-				</select> -->
 				<kendo-combobox id="CustomerServiceRep_{{client.ClientId}}" class="form-control" formControlName="CustomerServiceRep" *ngIf="reps else CustomerServiceRepName" [data]="reps" [textField]="'User'" [valueField]="'UserId'" [valuePrimitive]="true" [placeholder]="'Unknown'"></kendo-combobox>
 				<ng-template #CustomerServiceRepName>
 					<select class="form-control">
@@ -184,10 +175,6 @@
 							<div class="form-group">
 								<div class="input-group">
 									<kendo-datepicker class="form-control" placeholder="License Renewal Date" (keydown.enter)="updateRenewalDate($event)" formControlName="LRDate"></kendo-datepicker>
-									<!-- <input type="text" class="form-control" id="LicenseRenewaldate_{{client.ClientId}}" placeholder="License Renewal Date" bsDatepicker #dp="bsDatepicker" [bsConfig]="datePickerConfig" formControlName="LRDate" (keydown.enter)="updateRenewalDate($event)" [class.is-invalid]="isInvalidDirtyTouched(LRDate)" />
-									<div class="input-group-btn">
-										<button class="btn btn-outline-secondary" type="button" (click)="dp.toggle()"><span class="fa fa-calendar"></span></button>
-									</div> -->
 								</div>
 							</div>
 							<div class="form-group">
@@ -264,16 +251,9 @@
 				<label for="ChangeNotes_{{client.ClientId}}" class="col-md-4 col-form-label text-md-right">Change Notes</label>
 				<div class="col-md-8">
 					<textarea name="" id="ChangeNotes_{{client.ClientId}}" class="form-control" placeholder="Please enter notes about what is being updated" formControlName="ChangeNotes" [class.is-invalid]="isInvalidDirtyTouched(ChangeNotes)"></textarea>
-					<div class="invalid-feedback">*Please enter notes about what is being updated<!-- , <em>especially</em> if you are changing the status of the client -->.</div>
+					<div class="invalid-feedback">*Please enter notes about what is being updated.</div>
 				</div>
 			</div>
-			<!--
-
-			.row.form-group>label.col-md-4.col-form-label.text-md-right[for=Address_{{client.ClientId}}]{Address}+.col-md-8>input.form-control[type=text id=Address_{{client.ClientId}} placeholder="Address" formControlName=Address]
-
-			.row.form-group>label.col-md-4.col-form-label.text-md-right[for=NationalLender_{{client.ClientId}}]{NationalLender}+.col-md-8>.form-check.checkbox-fa.form-control-plaintext.mb-0>label.form-check-label>input.form-check-input[type=checkbox id=NationalLender_{{client.ClientId}} formControlName=NationalLender]+i.checkbox-i
-
-			-->
 		</div>
 	</div>
 	<div class="row">

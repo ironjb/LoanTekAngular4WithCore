@@ -7,14 +7,12 @@
 	};
 }
 @if (user?.UserId > 0) {
-	//string returnUrl = this.Context.Request?.Url?.PathAndQuery ?? string.Empty;
-
 	<div class="top-menu pull-right">
 		<ul class="nav navbar-nav pull-rightZ">
 			<li role="presentation" class="dropdown User dropdown-bubble dropdown-fade">
 				<a class="nav-link dropdown-toggle dropdown-with-icon" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 					<span class="user-icon-circle lt-bg-1"><i class="icon-user"></i></span>
-					@* Welcome *@ <span class="UserName"><span class="hidden-xs d-none d-sm-inline">@user.ActiveAUser.FullName</span>  <span class="caret"></span></span>
+					<span class="UserName"><span class="hidden-xs d-none d-sm-inline">@user.ActiveAUser.FullName</span>  <span class="caret"></span></span>
 				</a>
 				<ul class="dropdown-menu dropdown-menu-inverse si-pad dropdown-menu-right">
 					<li><a class="dropdown-item" href="javascript:;"><i class="icon-user"></i> Account</a></li>

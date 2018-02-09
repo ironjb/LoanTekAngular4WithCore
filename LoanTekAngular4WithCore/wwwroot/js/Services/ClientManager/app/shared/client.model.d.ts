@@ -8,15 +8,6 @@ export interface IClientListInfo {
 	pageSize: number;
 }
 
-// export interface ILoggedInUserInfo {
-// 	ActiveClientId: number;
-// 	ActiveUserId: number;
-// 	ClientId: number;
-// 	UserId: number;
-// 	IsLtAdmin: boolean;
-// 	Role: string;
-// }
-
 export interface IClientRow {
 	City: string;
 	ClientId: number;
@@ -29,22 +20,15 @@ export interface IClientRow {
 }
 
 export interface IClient extends IClientRow {
-	// ClientId: number;
-	// Company: string;
-	// Contact: string;
 	ContactUserId: number;
 	Address: string;
-	// City: string;
 	Zip: string;
-	// Phone: string;
 	Fax: string;
-	// Email: string;
 	Created: string|Date;
 	LastEdit: string|Date;
 	IpAddress: string;
 	UserId: string;
 	Status_Id: number;
-	// State: string;
 	Url: string;
 	Alternate_Email: string;
 	LicenseRenewaldate: string|Date;
@@ -62,11 +46,6 @@ export interface IClient extends IClientRow {
 }
 
 export type IClientListSort = 'ClientId'|'Company'|'Contact'|'Phone'|'Email'|'City'|'State'|'Status';
-
-// export interface IFilterTest {
-// 	filter: string;
-// 	test: string;
-// }
 
 export interface IClientListFilter {
 	companyFilter: string;
@@ -94,7 +73,6 @@ export interface IBillHistoryInfo {
 	billHistoryCount: number;
 	currentPage: number;
 	pageSize: number;
-	// loggedInUserInfo: ILoggedInUserInfo;
 }
 
 export interface IBillingHistory {
@@ -154,7 +132,6 @@ export interface ISave {
 export interface ISalesRepModel {
 	ClientId: number;
 	SalesRepUserId: number;
-	// LoggedInUserId: number;
 }
 
 export interface ICustomerServiceRepModel {

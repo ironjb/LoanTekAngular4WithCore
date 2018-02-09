@@ -49,7 +49,6 @@ export class PagingComponent implements OnInit, OnChanges {
 
 	ngOnChanges() {
 		this.pageCount = (this.pagesize < 1) ? 1 : Math.ceil(this.totalcount / this.pagesize);
-		// window.console && console.log('Paging:', '\n\tpage', this.page, '\t\ttotalcount', this.totalcount, '\t\tpagesize', this.pagesize, '\t\tpageCount', this.pageCount);
 		this.firstNumericButton = (Math.floor((this.page - 1) / this.numericbtncount) * this.numericbtncount) + 1;
 		this.numericBtnArray.length = 0;
 

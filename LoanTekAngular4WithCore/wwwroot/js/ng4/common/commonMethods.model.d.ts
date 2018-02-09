@@ -28,8 +28,6 @@ export interface ILoggedInUserInfo {
 	ActiveUserId: number;
 	ClientId: number;
 	UserId: number;
-	// IsLtAdmin: boolean;
-	// IsClientAdmin: boolean;
 	IsRole: {
 		LoanTekAdmin: boolean;
 		ClientAdmin: boolean;

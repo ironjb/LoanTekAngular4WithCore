@@ -5,7 +5,6 @@ export function multipleCheckRequireOne(keyName?: string): ValidatorFn {
 		let valid = false;
 
 		for (var faI = 0; faI < formArray.length; faI++) {
-			// let faItem = formArray[faI];
 			if (keyName) {
 				if (formArray.at(faI).value[keyName]) {
 					valid = true;

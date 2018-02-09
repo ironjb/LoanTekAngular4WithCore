@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormControl, AbstractControl, Validators } from
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 import { CommonMethodsService, IState, SimpleModalComponent, TOASTR_TOKEN, LODASH_TOKEN, customEmailValidator, ILoggedInUserInfo } from 'ltCommon/index';
-import { ClientService, IClient, IClientUser, ISelectOption, IClientChange/*, ILoggedInUserInfo*/, IClientSaveModel } from './../shared/index';
+import { ClientService, IClient, IClientUser, ISelectOption, IClientChange, IClientSaveModel } from './../shared/index';
 
 @Component({
 	selector: 'scm-client-info'
@@ -64,7 +64,6 @@ export class ClientInfoCompmonent implements OnInit {
 	// #region Init
 
 		ngOnInit() {
-			// window.console && console.log('cI onInit');
 			this.scmClientInfoFG = this.formBuilder.group(this.initClientInfoForm());
 			this.changeContactFG = this.formBuilder.group(this.initContactForm());
 			this.changeLicenseRenewalDateFG = this.formBuilder.group(this.initRenewalLicenseForm());
@@ -272,7 +271,6 @@ export class ClientInfoCompmonent implements OnInit {
 					this.client.LicenseRenewaldate = this.LRDate.value;
 					this.hideRenewalDateChange();
 					this.toastr.success('Updated License Renewal Date');
-					// window.console && console.log('this.scmClientInfoFG.value', this.scmClientInfoFG.value);
 				}).catch((error: Response) => {
 					window.console && console.error('updateRenewalDate Error:', error);
 					this.isLicenseRenewBtnDisabled = false;

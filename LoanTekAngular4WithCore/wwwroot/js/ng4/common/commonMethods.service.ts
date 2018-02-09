@@ -2,40 +2,14 @@ import { Injectable, Inject } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { JQUERY_TOKEN } from './jquery.service';
-// import { LODASH_TOKEN } from './lodash.service';
 import 'rxjs/add/operator/toPromise';
 import { test as fuzzyTest } from 'fuzzy';
 
-import { IState, IStates, ISelectOption, IFilterTest, ILoggedInUserInfo } from './commonMethods.model'
-
-// export interface IState {
-// 	abbreviation: string;
-// 	name: string;
-// }
-
-// export interface IStates {
-// 	country: string;
-// 	states: IState[];
-// }
-
-// export interface ISelectOption {
-// 	Text: string;
-// 	Value: string|number;
-// }
-
-// export type IFilterOperator = 'cn'|'gt'|'lt'|'eq';
-// export type IFilterType = 'string'|'number'|'boolean'|'date';
-
-// export interface IFilterTest {
-// 	filter: string;
-// 	test: string;
-// 	type?: IFilterType;
-// 	operator?: IFilterOperator;
-// }
+import { IState, IStates, ISelectOption, IFilterTest, ILoggedInUserInfo } from './commonMethods.model';
 
 @Injectable()
 export class CommonMethodsService {
-	constructor(private http: Http, @Inject(JQUERY_TOKEN) private $: JQueryStatic/*, @Inject(LODASH_TOKEN) private _: _.LoDashStatic*/) {}
+	constructor(private http: Http, @Inject(JQUERY_TOKEN) private $: JQueryStatic) {}
 
 	/**
 	 * Returns a random integer.

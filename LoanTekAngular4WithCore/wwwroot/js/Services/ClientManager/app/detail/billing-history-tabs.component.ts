@@ -11,13 +11,5 @@ export class BillingHistoryTabCompmonent/* implements OnInit*/ {
 	ccType: BillingHistoryType = BillingHistoryType.CreditCardPayments;
 	acType: BillingHistoryType = BillingHistoryType.AccountDebits;
 
-	constructor(/*private clientService: ClientService*/) {}
-
-	// ngOnInit() {
-	// 	window.console && console.log('TODO: Should we move this to the client-info instead of here???');
-	// 	this.clientService.getClient(this.clientBasic.ClientId).then(client => {
-	// 		window.console && console.log('done getting data', client);
-	// 		this.clientFull = client;
-	// 	});
-	// }
+	constructor() {}
 }

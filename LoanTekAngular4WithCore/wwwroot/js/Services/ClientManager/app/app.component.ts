@@ -32,7 +32,6 @@ let slideAnimations: AnimationMetadata[] = [
 })
 export class AppComponent implements OnInit {
 	@ViewChild('clientInfoModal') clientInfoModal: SimpleModalComponent;
-	// @ViewChild('testmodal') testmodal: SimpleModalComponent;
 	clientListInfo: IClientListInfo;
 	scmFilterFG: FormGroup;
 	isGettingClientList: boolean = false;
@@ -43,18 +42,11 @@ export class AppComponent implements OnInit {
 	sortBy: IClientListSort = null;
 	reverseSort: boolean = false;
 
-	// stateExpression: string;
 	leftRightExp: string;
 	leftExp: string;
 	rightExp: string;
 
 	constructor(private formBuilder: FormBuilder, private clientService: ClientService, @Inject(LODASH_TOKEN) private _: _.LoDashStatic, @Inject(TOASTR_TOKEN) private toastr: Toastr, private cm: CommonMethodsService) {}
-
-	// expand() { this.stateExpression = 'expanded'; }
-
-	// collapse() { this.stateExpression = 'collapsed'; }
-
-	// openTestModal() { this.testmodal.openModal(); }
 
 	// #region Init
 
@@ -97,19 +89,12 @@ export class AppComponent implements OnInit {
 
 		showLeftSlide() {
 			this.showLeftSlideInit();
-			// setTimeout(() => {
-				this.cm.ScrollToAnchor('clientManagerTop');
-			// }, 100);
+			this.cm.ScrollToAnchor('clientManagerTop');
 		}
 
 		showRightSlide() {
 			this.showRightSlideInit();
-			// this.leftRightExp = 'right';
-			// this.leftExp = 'hide';
-			// this.rightExp = 'show';
-			// setTimeout(() => {
-				this.cm.ScrollToAnchor('clientManagerTop');
-			// }, 100);
+			this.cm.ScrollToAnchor('clientManagerTop');
 		}
 
 	// #endregion
@@ -141,7 +126,6 @@ export class AppComponent implements OnInit {
 		changeSort(sortBy: IClientListSort) {
 			this.isGettingClientList = true;
 			if (sortBy === this.sortBy) {
-				// window.console && console.log('reversing Sort');
 				if (this.reverseSort) {
 					this.sortBy = null;
 					this.reverseSort = false;
@@ -149,7 +133,6 @@ export class AppComponent implements OnInit {
 					this.reverseSort = !this.reverseSort;
 				}
 			} else {
-				// window.console && console.log('changing to new sort');
 				this.sortBy = sortBy;
 				this.reverseSort = false;
 			}
@@ -164,11 +147,9 @@ export class AppComponent implements OnInit {
 		openClientInfo(clientRow: IClientRow) {
 			this.isGettingClientData = true;
 			this.clientService.getClient(clientRow.ClientId).then(client => {
-				// window.console && console.log('done getting data', client);
 				this.isGettingClientData = false;
 				this.currentClient = client;
 				this.currentClient.Status = clientRow.Status;
-				// this.clientInfoModal.openModal();
 				this.showRightSlide();
 			}).catch((error: Response) => {
 				window.console && console.error('ERROR:', error);
@@ -179,44 +160,29 @@ export class AppComponent implements OnInit {
 		}
 
 		closeClientInfoModal() {
-			// this.clientInfoModal.closeModal();
 			this.showLeftSlide();
 			this.clearCurrentClient();
 		}
 
 		updateClient(c: IClient) {
-			// window.console && console.log('app.component updateClient', c);
-			// var selectedClientIndex: number = this.clientListInfo.clientList.findIndex(cl => cl.ClientId === c.ClientId);
-			// window.console && console.log('selectedClientIndex (not used???)', selectedClientIndex);
-			// if (selectedClientIndex !== -1) {
-				// var selectedClient = this.clientListInfo.clientList[selectedClientIndex];
-				var selectedClient: IClientRow = this.clientListInfo.clientList.find(cl => cl.ClientId === c.ClientId);
-				// window.console && console.log('selectedClient', selectedClient);
-				selectedClient.Company = c.Company;
-				selectedClient.Contact = c.Contact;
-				selectedClient.Phone = c.Phone;
-				selectedClient.Email = c.Email;
-				selectedClient.City = c.City;
-				selectedClient.State = c.State;
-			// }
+			var selectedClient: IClientRow = this.clientListInfo.clientList.find(cl => cl.ClientId === c.ClientId);
+			selectedClient.Company = c.Company;
+			selectedClient.Contact = c.Contact;
+			selectedClient.Phone = c.Phone;
+			selectedClient.Email = c.Email;
+			selectedClient.City = c.City;
+			selectedClient.State = c.State;
 		}
 
 	// #endregion
 
 	// #region Shared Methods
 
-		// isInvalidDirtyTouched(control: AbstractControl) {
-		// 	return control.invalid && (control.dirty || control.touched);
-		// }
-
 		clearCurrentClient() {
-			// setTimeout(function() {
-				this.currentClient = null;
-			// }, 1000);
+			this.currentClient = null;
 		}
 
 		private filterClientList(currentPage: number, pageSize: number, sortBy?: string, reverse?: boolean, filter?: IClientListFilter, callback?: Function) {
-			// window.console && console.log('filterClientList\n\tcurrentPage:', currentPage, '\n\tpageSize:', pageSize, '\n\tsortBy', sortBy, '\n\treverse:', reverse, '\n\tfilter', filter, '\n\tcallback:', callback);
 			this.clientService.getFilteredClientList(currentPage, pageSize, sortBy, reverse, filter).then(clientInfo => {
 				this.clientListInfo = clientInfo;
 				if (callback && typeof callback === 'function') { callback(); }

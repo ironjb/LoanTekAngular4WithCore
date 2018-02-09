@@ -21,30 +21,9 @@ export class PrintReceiptComponent implements OnInit {
 
 	ngOnInit() {
 		this.printReceiptData = null;
-		// TODO: Get data from SessionStorage???
-		// window.console && console.log('sessionStorage', sessionStorage.getItem('clientManagerBillingHistoryPrintReceipt'));
-		// let ssPrintReceipt: string = sessionStorage.getItem('clientManagerBillingHistoryPrintReceipt');
-
-		// if (ssPrintReceipt) {
-		// 	this.printReceiptData = JSON.parse(ssPrintReceipt);
-		// 	this.printReceipt();
-		// } else {
-		// 	this.printReceiptData = { PaymentResponse: 'Error: No Results' };
-		// }
-
-		// window.console && console.log('cmprInfo', cmprInfo);
-		// let gvPrintReceipt: IInvoicingPrintModel = cmprInfo;
-
-		// if (gvPrintReceipt) {
-		// 	this.printReceiptData = gvPrintReceipt;
-		// 	this.printReceipt();
-		// } else {
-		// 	this.printReceiptData = { PaymentResponse: 'Error: No Results' };
-		// }
 
 		if (cmprInfo && cmprInfo.ClientId && cmprInfo.InvoiceId && cmprInfo.BillingVersion) {
 			this.getInvoiceForPrinting(cmprInfo).then((pModel) => {
-				// window.console && console.log('pModel', pModel);
 				this.printReceiptData = pModel;
 				setTimeout(() => {
 					this.printReceipt();
@@ -70,10 +49,4 @@ export class PrintReceiptComponent implements OnInit {
 			return response.json() as IInvoicingPrintModel;
 		});
 	}
-
-	// ngOnDestroy() {
-	// 	window.console && console.log('destroyed');
-	// 	sessionStorage.removeItem('clientManagerBillingHistoryPrintReceipt');
-	// 	alert('destroyed');
-	// }
 }
