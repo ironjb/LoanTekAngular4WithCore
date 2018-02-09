@@ -7,17 +7,59 @@ import { IBranch, IBranchManager, IBranchUser, IClientBranchesInfo, IActiveUser,
 @Injectable()
 export class BranchService {
 
-	constructor(private http: Http) {}
+	_fakeBranches: IBranch[];
+	_fakeUsers: IBranchUser[];
+	_fakeManagers: IBranchManager[];
+
+	constructor(private http: Http) {
+		this._fakeBranches = this.getFakeBranches.map(b => {
+			return {
+				BranchId: b.BranchId
+				, BranchName: b.BranchName
+				, BranchManagers: this.fakeBranchManagers.filter(m => b.BranchManagers.indexOf(m.UserId) !== -1)
+				, BranchUsers: this.fakeBranchUsers.filter(m => b.BranchUsers.indexOf(m.userid) !== -1)
+			};
+		});
+		this._fakeUsers = this.getFakeUsers;
+		this._fakeManagers = this.getFakeManagers;
+	}
+
+	get getFakeUsers() { return this.fakeBranchUsers.slice(); }
+	get getFakeManagers() { return this.fakeBranchManagers.slice(); }
+	get getFakeBranches() { return this.fakeBranches.slice(); }
+	get getFakePricingRules() { return this.fakePricingRules.slice(); }
 
 	getAllClientBranches(): Promise<IClientBranchesInfo> {
-		return this.http.get('/Services/BranchManager/GetAllClientBranches').toPromise().then((response: Response) => {
-			return response.json() as IClientBranchesInfo;
+		// return this.http.get('/Services/BranchManager/GetAllClientBranches').toPromise().then((response: Response) => {
+		// 	return response.json() as IClientBranchesInfo;
+		// });
+		return new Promise<IClientBranchesInfo>(resolve => {
+			var fakeClientBranchInfo: IClientBranchesInfo = {
+				ActiveUser: { ClientId: 13, UserId: 44 }
+				, Branches: this._fakeBranches
+			};
+			setTimeout(() => {
+				resolve(fakeClientBranchInfo);
+			}, 100);
 		});
 	}
 
 	getNewBranchAssets(): Promise<INewBranchAssets> {
-		return this.http.get('/Services/BranchManager/GetNewBranchAssets').toPromise().then((response: Response) => {
-			return response.json() as INewBranchAssets;
+		// return this.http.get('/Services/BranchManager/GetNewBranchAssets').toPromise().then((response: Response) => {
+		// 	return response.json() as INewBranchAssets;
+		// });
+		return new Promise<INewBranchAssets>(resolve => {
+			// var usersAlreadyInBranch = this._fakeBranches.map(b => {
+			// 	var branchUsers
+			// });
+			var fakeBranchAssets: INewBranchAssets = {
+				BranchManagers: this.getFakeUsers
+				, BranchUsers: []
+				, PricingRules: this.getFakePricingRules
+			};
+			setTimeout(() => {
+				resolve(fakeBranchAssets);
+			}, 100);
 		});
 	}
 
@@ -28,8 +70,20 @@ export class BranchService {
 	}
 
 	getUsersWithNoBranch(clientId: number): Promise<IBranchUser[]> {
-		return this.http.get(`/Services/BranchManager/GetUsersWithNoBranch?clientId=${clientId}`).toPromise().then((response: Response) => {
-			return response.json() as IBranchUser[];
+		// return this.http.get(`/Services/BranchManager/GetUsersWithNoBranch?clientId=${clientId}`).toPromise().then((response: Response) => {
+		// 	return response.json() as IBranchUser[];
+		// });
+		return new Promise<IBranchUser[]>(resolve => {
+			var usersAlreadyInBranch: number[] = [];
+			this._fakeBranches.forEach(b => {
+				usersAlreadyInBranch = usersAlreadyInBranch.concat(b.BranchUsers.map(u => u.userid));
+			});
+			var remainingBranchUsers = this.getFakeUsers.filter(u => {
+				return usersAlreadyInBranch.indexOf(u.userid) === -1;
+			});
+			setTimeout(() => {
+				resolve(remainingBranchUsers);
+			}, 100);
 		});
 	}
 
@@ -64,4 +118,44 @@ export class BranchService {
 			return response.json() as boolean;
 		});
 	}
+
+	private fakeBranchManagers: IBranchManager[] = [{ "UserId": 1, "FullName": "Garner Whitley", "Email": "garnerwhitley@andershun.com" }, { "UserId": 2, "FullName": "Rodriguez Baker", "Email": "rodriguezbaker@andershun.com" }, { "UserId": 3, "FullName": "Cook Stewart", "Email": "cookstewart@andershun.com" }, { "UserId": 4, "FullName": "Paul Mccall", "Email": "paulmccall@andershun.com" }, { "UserId": 5, "FullName": "Lucille Mckinney", "Email": "lucillemckinney@andershun.com" }, { "UserId": 6, "FullName": "Alyce Fletcher", "Email": "alycefletcher@andershun.com" }, { "UserId": 7, "FullName": "Carolina Ray", "Email": "carolinaray@andershun.com" }, { "UserId": 8, "FullName": "Bettie Rodriquez", "Email": "bettierodriquez@andershun.com" }, { "UserId": 9, "FullName": "Christie Lester", "Email": "christielester@andershun.com" }, { "UserId": 10, "FullName": "Cindy Aguirre", "Email": "cindyaguirre@andershun.com" }, { "UserId": 11, "FullName": "Browning Cantu", "Email": "browningcantu@andershun.com" }];
+	private fakeBranchUsers: IBranchUser[] = this.fakeBranchManagers.map(u => {
+		return { userid: u.UserId, FullName: u.FullName, email: u.Email };
+	});
+	private fakeBranches = [{ "BranchId": 1, "BranchName": "Firewax", "BranchUsers": [2, 3, 4], "BranchManagers": [2] }, { "BranchId": 2, "BranchName": "Slambda", "BranchUsers": [11], "BranchManagers": [11] }, { "BranchId": 3, "BranchName": "Anixang", "BranchUsers": [5, 6, 7], "BranchManagers": [5] }];
+	private fakePricingRules = [{ RuleId: 1, RuleDescription: 'Pricing Rule 1' }, { RuleId: 2, RuleDescription: 'Pricing Rule 2' }, { RuleId: 3, RuleDescription: 'Pricing Rule 3' }, { RuleId: 4, RuleDescription: 'Pricing Rule 4' }];
 }
+
+/*
+[
+	'{{repeat(11)}}',
+	{
+		UserId: '{{index() + 1}}',
+		FullName: '{{firstName()}} {{surname()}}',
+		Email: '{{email()}}'
+	}
+]
+
+
+[
+	'{{repeat(3)}}',
+	{
+		BranchId: '{{index() + 1}}',
+		BranchName: '{{company()}}',
+		BranchUsers: function (tags) {
+			if (!window.myList) {
+				window.myList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+			}
+			var randomIndex = Math.floor((Math.random() * window.myList.length));
+			var randomIndex2 = Math.floor((Math.random() * 3) + 1);
+			var myUsers = window.myList.splice(randomIndex, randomIndex2);
+			window.myMgr = [myUsers[0]];
+			return myUsers;
+		},
+		BranchManagers: function (tags) {
+			return window.myMgr;
+		}
+	}
+]
+*/

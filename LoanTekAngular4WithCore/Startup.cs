@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 
 namespace LoanTekAngular4WithCore
 {
@@ -21,7 +22,15 @@ namespace LoanTekAngular4WithCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(o => {
+				if (o.SerializerSettings.ContractResolver != null)
+				{
+					// Stops the Json Serializer from changing the case on the properties.
+					// Serializer will now just take the property names as they are defined in the class.
+					var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
+					castedResolver.NamingStrategy = null;
+				}
+			});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

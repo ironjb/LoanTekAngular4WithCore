@@ -13,5 +13,26 @@ namespace LoanTekAngular4WithCore.Areas.Services.Controllers
         {
             return View();
         }
-    }
+
+		public IActionResult GetLoggedInUserInfo()
+		{
+			var userInfo = new
+			{
+				ActiveClientId = 13,
+				ActiveUserId = 44,
+				ClientId = 5,
+				UserId = 1940,
+				IsRole = new
+				{
+					LoanTekAdmin = true,
+					ClientAdmin = true,
+					ClientSalesAdmin = true,
+					ClientUser = true,
+					ClientUserLMOnly = true
+				},
+				Role = "LoanTekAdmin"
+			};
+			return Ok(userInfo);
+		}
+	}
 }
