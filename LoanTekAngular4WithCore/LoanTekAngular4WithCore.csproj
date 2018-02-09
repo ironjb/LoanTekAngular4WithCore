@@ -13,9 +13,4 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Services\Data\" />
-    <Folder Include="Areas\Services\Models\" />
-  </ItemGroup>
-
 </Project>
